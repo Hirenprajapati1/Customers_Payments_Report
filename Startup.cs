@@ -45,8 +45,17 @@ namespace Customers_Payments_Report
                 app.UseDeveloperExceptionPage();
             }
 
+            //app.UseCors(builder => builder
+            //  .AllowAnyHeader()
+            //  .AllowAnyMethod()
+            //  .SetIsOriginAllowed((host) => true)
+            //  .AllowCredentials()
+            //  );
+            
             app.UseRouting();
-
+            app.UseCors();
+          //  app.UseHttpsRedirection();
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

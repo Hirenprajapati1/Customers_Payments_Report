@@ -12,7 +12,8 @@ namespace Customers_Payments_Report.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-  
+    [EnableCors("AllowMyOrigin")]
+
     public class DefaultController : ControllerBase
     {
         private readonly IGetData _GetDataRepository;
