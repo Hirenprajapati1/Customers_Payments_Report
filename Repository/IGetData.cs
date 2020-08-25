@@ -7,8 +7,14 @@ namespace Customers_Payments_Report.Repository
 {
     public interface IGetData
     {
+        public List<Models.common.Report> GetReportCallaction();
+
         #region Report
-        public List<Models.common.Report> GetReport();
+        //public List<Models.common.Report> GetReport();
+        public List<Models.common.Report> GetReportPay();
+        //public List<Models.common.CustomerReport> GetReportData();
+
+
         #endregion
 
         #region ListData
