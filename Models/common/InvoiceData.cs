@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace Customers_Payments_Report.Models.common
 {
-    public class Invoice
+    public class InvoiceData
     {
+        public int Invoiceid { get; set; }
         public string InvoiceNo { get; set; }
         public string CustomerNo { get; set; }
         public DateTime InvoiceDate { get; set; }

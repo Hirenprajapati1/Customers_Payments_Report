@@ -17,9 +17,13 @@ namespace Customers_Payments_Report.Controllers
     public class DefaultController : ControllerBase
     {
         private readonly IGetData _GetDataRepository;
+        public DefaultController(IGetData GetDataRepository)
+        {
+            _GetDataRepository = GetDataRepository;
+        }
 
         [HttpGet("GetReportCallaction")]
-        public List<Models.common.Report> GetReportCallaction()
+        public List<Models.common.ReportData> GetReportCallaction()
         {
             return _GetDataRepository.GetReportCallaction();
         }
@@ -28,7 +32,7 @@ namespace Customers_Payments_Report.Controllers
 
 
         [HttpGet("GetReportPay")]
-        public List<Models.common.Report> GetReportPay()
+        public List<Models.common.ReportData> GetReportPay()
         {
             return _GetDataRepository.GetReportPay();
         }
@@ -49,26 +53,22 @@ namespace Customers_Payments_Report.Controllers
 
 
         #region ListData
-        public DefaultController(IGetData GetDataRepository)
-        {
-            _GetDataRepository = GetDataRepository;
-        }
-
+     
         [HttpGet("GetCustomers")]
-        public List<Models.common.Customer> GetEmployees()
+        public List<Models.common.CustomerData> GetEmployees()
         {
             return _GetDataRepository.GetCustomers();
         }
 
         [HttpGet("GetInvoices")]
-        public List<Models.common.Invoice> GetInvoices()
+        public List<Models.common.InvoiceData> GetInvoices()
         {
             return _GetDataRepository.GetInvoices();
         }
 
 
         [HttpGet("GetPayments")]
-        public List<Models.common.Pyment> GetPayments()
+        public List<Models.common.PaymentData> GetPayments()
         {
             return _GetDataRepository.GetPayments();
         }

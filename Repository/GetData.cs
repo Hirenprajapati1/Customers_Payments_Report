@@ -14,9 +14,9 @@ namespace Customers_Payments_Report.Repository
     {
         #region ReportPayfinaloutput
 
-        public List<Models.common.Report> GetReportPay()
+        public List<Models.common.ReportData> GetReportPay()
         {
-            List<Models.common.Report> Reports = new List<Models.common.Report>();
+            List<Models.common.ReportData> Reports = new List<Models.common.ReportData>();
             #region Comment
             //List<Models.common.Report> ReportData = new List<Models.common.Report>();
             //List<Models.common.Pyment> Payments = new List<Models.common.Pyment>();
@@ -27,11 +27,11 @@ namespace Customers_Payments_Report.Repository
             {
                 using (var dBContext = new CustomersDatabaseContext())
                 {
-                    Models.common.Report Report1;
+                    Models.common.ReportData Report1;
                     int i = 0;
                     foreach (var Inv in dBContext.Invoice.ToList())
                     {
-                        Report1 = new Models.common.Report();
+                        Report1 = new Models.common.ReportData();
                         var Cust = dBContext.Customer.FirstOrDefault(x => x.CustomerNo == Inv.CustomerNo);
                         #region Comment
                         //i++;
@@ -84,9 +84,9 @@ namespace Customers_Payments_Report.Repository
 
                     }
                     //  var inv = dBContext.Pyment.FirstOrDefault(x => x.InvoiceNo == Inv.InvoiceNo);
-                    foreach (var PayInv in dBContext.Pyment.ToList())
+                    foreach (var PayInv in dBContext.Payment.ToList())
                     {
-                        Report1 = new Models.common.Report();
+                        Report1 = new Models.common.ReportData();
                         var inv = dBContext.Invoice.FirstOrDefault(x => x.InvoiceNo == PayInv.InvoiceNo);
 
                         var Cust = dBContext.Customer.FirstOrDefault(x => x.CustomerNo == inv.CustomerNo);
@@ -208,17 +208,17 @@ namespace Customers_Payments_Report.Repository
         #endregion
 
         #region Callaction
-        public List<Models.common.Report> GetReportCallaction()
+        public List<Models.common.ReportData> GetReportCallaction()
         {
-            List<Models.common.Report> Reports = new List<Models.common.Report>();
+            List<Models.common.ReportData> Reports = new List<Models.common.ReportData>();
             try
             {
                 using (var dBContext = new CustomersDatabaseContext())
                 {
-                    Models.common.Report Report1;
-                    foreach (var PayInv in dBContext.Pyment.ToList())
+                    Models.common.ReportData Report1;
+                    foreach (var PayInv in dBContext.Payment.ToList())
                     {
-                        Report1 = new Models.common.Report();
+                        Report1 = new Models.common.ReportData();
                         var inv = dBContext.Invoice.FirstOrDefault(x => x.InvoiceNo == PayInv.InvoiceNo);
 
                         var Cust = dBContext.Customer.FirstOrDefault(x => x.CustomerNo == inv.CustomerNo);
@@ -451,18 +451,18 @@ namespace Customers_Payments_Report.Repository
         #endregion
 
         #region ListData
-        public List<Models.common.Customer> GetCustomers()
+        public List<Models.common.CustomerData> GetCustomers()
         {
-            List<Models.common.Customer> Customers = new List<Models.common.Customer>();
+            List<Models.common.CustomerData> Customers = new List<Models.common.CustomerData>();
             try
             {
                 using (var dBContext = new CustomersDatabaseContext())
                 {
                     //GetEmployee
-                    Models.common.Customer Customer1;
+                    Models.common.CustomerData Customer1;
                     foreach (var Cu in dBContext.Customer.ToList())
                     {
-                        Customer1 = new Models.common.Customer();
+                        Customer1 = new Models.common.CustomerData();
                         Customer1.CustomerNo = Cu.CustomerNo;
                         Customer1.CustomerName = Cu.CustomerName;
 
@@ -480,18 +480,18 @@ namespace Customers_Payments_Report.Repository
             }
             return Customers;
         }
-        public List<Models.common.Invoice> GetInvoices()
+        public List<Models.common.InvoiceData> GetInvoices()
         {
-            List<Models.common.Invoice> Invoices = new List<Models.common.Invoice>();
+            List<Models.common.InvoiceData> Invoices = new List<Models.common.InvoiceData>();
             try
             {
                 using (var dBContext = new CustomersDatabaseContext())
                 {
                     //GetEmployee
-                    Models.common.Invoice Invoice1;
+                    Models.common.InvoiceData Invoice1;
                     foreach (var Invo in dBContext.Invoice.ToList())
                     {
-                        Invoice1 = new Models.common.Invoice();
+                        Invoice1 = new Models.common.InvoiceData();
                         Invoice1.InvoiceNo = Invo.InvoiceNo;
                         Invoice1.CustomerNo = Invo.CustomerNo;
                         Invoice1.InvoiceDate = Invo.InvoiceDate;
@@ -510,18 +510,18 @@ namespace Customers_Payments_Report.Repository
             }
             return Invoices;
         }
-        public List<Models.common.Pyment> GetPayments()
+        public List<Models.common.PaymentData> GetPayments()
         {
-            List<Models.common.Pyment> Payments = new List<Models.common.Pyment>();
+            List<Models.common.PaymentData> Payments = new List<Models.common.PaymentData>();
             try
             {
                 using (var dBContext = new CustomersDatabaseContext())
                 {
                     //GetEmployee
-                    Models.common.Pyment Payment1;
-                    foreach (var Pay in dBContext.Pyment.ToList())
+                    Models.common.PaymentData Payment1;
+                    foreach (var Pay in dBContext.Payment.ToList())
                     {
-                        Payment1 = new Models.common.Pyment();
+                        Payment1 = new Models.common.PaymentData();
                         Payment1.PaymentNo = Pay.PaymentNo;
                         Payment1.InvoiceNo = Pay.InvoiceNo;
                         Payment1.PaymentDate = Pay.PaymentDate;

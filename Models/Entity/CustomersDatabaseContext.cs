@@ -17,7 +17,7 @@ namespace Customers_Payments_Report.Models.Entity
 
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Invoice> Invoice { get; set; }
-        public virtual DbSet<Pyment> Pyment { get; set; }
+        public virtual DbSet<Payment> Payment { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,20 +32,22 @@ namespace Customers_Payments_Report.Models.Entity
         {
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.CustomerNo);
+
+                entity.Property(e => e.CustomerNo).HasMaxLength(10);
 
                 entity.Property(e => e.CustomerName)
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.CustomerNo)
-                    .IsRequired()
-                    .HasMaxLength(10);
+                entity.Property(e => e.Customerid).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<Invoice>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.InvoiceNo);
+
+                entity.Property(e => e.InvoiceNo).HasMaxLength(10);
 
                 entity.Property(e => e.CustomerNo)
                     .IsRequired()
@@ -53,16 +55,16 @@ namespace Customers_Payments_Report.Models.Entity
 
                 entity.Property(e => e.InvoiceDate).HasColumnType("datetime");
 
-                entity.Property(e => e.InvoiceNo)
-                    .IsRequired()
-                    .HasMaxLength(10);
+                entity.Property(e => e.Invoiceid).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.PaymentDueDate).HasColumnType("datetime");
             });
 
-            modelBuilder.Entity<Pyment>(entity =>
+            modelBuilder.Entity<Payment>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.PaymentNo);
+
+                entity.Property(e => e.PaymentNo).HasMaxLength(10);
 
                 entity.Property(e => e.InvoiceNo)
                     .IsRequired()
@@ -70,9 +72,7 @@ namespace Customers_Payments_Report.Models.Entity
 
                 entity.Property(e => e.PaymentDate).HasColumnType("datetime");
 
-                entity.Property(e => e.PaymentNo)
-                    .IsRequired()
-                    .HasMaxLength(10);
+                entity.Property(e => e.Paymentid).ValueGeneratedOnAdd();
             });
 
             OnModelCreatingPartial(modelBuilder);
