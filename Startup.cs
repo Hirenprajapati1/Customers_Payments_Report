@@ -10,6 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Customers_Payments_Report.Repository;
+using Customers_Payments_Report.Repository.Interface;
+using Customers_Payments_Report.Repository.Class;
+
 namespace Customers_Payments_Report
 {
     public class Startup
@@ -34,6 +37,11 @@ namespace Customers_Payments_Report
 
             services.AddControllers();
             services.AddScoped<IGetData, GetData>();
+            services.AddScoped<IReportRepository, ReportRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
+
 
         }
 

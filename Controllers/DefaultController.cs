@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Customers_Payments_Report.Models;
 using Customers_Payments_Report.Repository;
 using Microsoft.AspNetCore.Cors;
+using Customers_Payments_Report.Repository.Interface;
 
 namespace Customers_Payments_Report.Controllers
 {

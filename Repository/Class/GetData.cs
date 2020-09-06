@@ -5,10 +5,10 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
-using Customers_Payments_Report.Models;
 using Customers_Payments_Report.Models.Entity;
+using Customers_Payments_Report.Repository.Interface;
 
-namespace Customers_Payments_Report.Repository
+namespace Customers_Payments_Report.Repository.Class
 {
     public class GetData : IGetData
     {
