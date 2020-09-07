@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Customers_Payments_Report.Models.common;
+using Customers_Payments_Report.Models.Entity;
 using Customers_Payments_Report.Repository.Interface;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -33,6 +34,18 @@ namespace Customers_Payments_Report.Controllers
         public int AddCustomer([FromBody] CustomerData cust, string CustomerNo)
         {
             return _customerRepository.AddCustomer(cust, CustomerNo);
+        }
+
+        [HttpGet("GetCustomerById/{id}")]
+        public CustomerData GetCustomerById(int id)
+        {
+            return _customerRepository.GetCustomerById(id);
+        }
+
+        [HttpDelete("DeleteCustomer/{id}")]
+        public int DeleteCustomer(int id)
+        {
+            return _customerRepository.DeleteCustomer(id);
         }
 
     }

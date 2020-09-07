@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Customers_Payments_Report.Models.common;
+using Customers_Payments_Report.Models.Entity;
 using Customers_Payments_Report.Repository.Interface;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -32,6 +33,18 @@ namespace Customers_Payments_Report.Controllers
         public int AddPayment([FromBody] PaymentData PaymentModel, string PaymentNo)
         {
             return _paymentRepository.AddPayment(PaymentModel, PaymentNo);
+        }
+
+        [HttpGet("GetPaymentById/{id}")]
+        public PaymentData GetPaymentById(int id)
+        {
+            return _paymentRepository.GetPaymentById(id);
+        }
+
+        [HttpDelete("DeletePayment/{id}")]
+        public int DeletePayment(int id)
+        {
+            return _paymentRepository.DeletePayment(id);
         }
 
     }

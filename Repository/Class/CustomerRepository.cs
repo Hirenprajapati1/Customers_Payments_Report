@@ -84,5 +84,70 @@ namespace Customers_Payments_Report.Repository.Class
 
         #endregion
 
+        #region GetCustomerById
+
+        public CustomerData GetCustomerById(int id)
+        {
+            CustomerData CustomerDatas = new CustomerData();
+            try
+            {
+                using (var dBContext = new CustomersDatabaseContext())
+                {
+                    //GetEmployee
+                    var Cust = dBContext.Customer.Where(x => x.Customerid == id).SingleOrDefault();
+                    if (Cust != null)
+                    {
+                        CustomerDatas.Customerid = Cust.Customerid;
+                        CustomerDatas.CustomerNo = Cust.CustomerNo;
+                        CustomerDatas.CustomerName = Cust.CustomerName;
+                    }
+                    return CustomerDatas;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+
+        }
+
+
+        #endregion
+
+        #region DeleteCustomer
+
+        public int DeleteCustomer(int Id)
+        {
+            int returnVal = 0;
+            try
+            {
+                using (var dBContext1 = new CustomersDatabaseContext())
+                {
+                    Customer customerEntity = new Customer();
+                  //  CustomerData DeleteCust = new CustomerData();
+                    customerEntity = dBContext1.Customer.FirstOrDefault(x => x.Customerid == Id);
+                    if (customerEntity != null)
+                    {
+                        dBContext1.Customer.Remove(customerEntity);
+                    }
+                    returnVal = dBContext1.SaveChanges();
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+                //throw;
+            }
+            return returnVal;
+        }
+
+
+        #endregion
+
     }
 }

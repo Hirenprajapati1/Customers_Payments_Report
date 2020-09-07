@@ -29,7 +29,7 @@ namespace Customers_Payments_Report.Repository.Class
                         Payment1 = new PaymentData();
                         Payment1.PaymentNo = Pay.PaymentNo;
                         Payment1.InvoiceNo = Pay.InvoiceNo;
-                        if(Cust != null)
+                        if (Cust != null)
                         {
                             Payment1.CustomerName = Cust.CustomerName;
                         }
@@ -100,6 +100,67 @@ namespace Customers_Payments_Report.Repository.Class
 
         #endregion
 
+        #region GetPaymentById
+
+        public PaymentData GetPaymentById(int id)
+        {
+            PaymentData PaymentDatas = new PaymentData();
+            try
+            {
+                using (var dBContext = new CustomersDatabaseContext())
+                {
+                    //GetEmployee
+                    var pay = dBContext.Payment.Where(x => x.Paymentid == id).SingleOrDefault();
+                    if (pay != null)
+                    {
+                        PaymentDatas.Paymentid = pay.Paymentid;
+                        PaymentDatas.PaymentNo = pay.PaymentNo;
+                        PaymentDatas.InvoiceNo = pay.InvoiceNo;
+                        PaymentDatas.PaymentDate = pay.PaymentDate;
+                        PaymentDatas.PaymentAmount = pay.PaymentAmount;
+                    }
+                    return PaymentDatas;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+
+        }
+
+
+        #endregion
+
+        #region DeletePayment
+
+        public int DeletePayment(int Id)
+        {
+            int returnVal = 0;
+            try
+            {
+                using (var dBContext1 = new CustomersDatabaseContext())
+                {
+                    Payment paymentEntity = new Payment();
+                    paymentEntity = dBContext1.Payment.FirstOrDefault(x => x.Paymentid == Id);
+                    if (paymentEntity != null)
+                    {
+                        dBContext1.Payment.Remove(paymentEntity);
+                    }
+                    returnVal = dBContext1.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                //throw;
+            }
+            return returnVal;
+        }
+
+
+        #endregion
 
     }
 }

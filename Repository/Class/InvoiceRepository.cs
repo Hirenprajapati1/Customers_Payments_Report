@@ -99,5 +99,69 @@ namespace Customers_Payments_Report.Repository.Class
         }
 
         #endregion
+
+        #region GetInvoiceById
+
+        public InvoiceData GetInvoiceById(int id)
+        {
+            InvoiceData invoiceDatas = new InvoiceData();
+            try
+            {
+                using (var dBContext = new CustomersDatabaseContext())
+                {
+                    //GetEmployee
+                    var Inv = dBContext.Invoice.Where(x => x.Invoiceid == id).SingleOrDefault();
+                    if (Inv != null)
+                    {
+                        invoiceDatas.Invoiceid = Inv.Invoiceid;
+                        invoiceDatas.CustomerNo = Inv.CustomerNo;
+                        invoiceDatas.InvoiceNo = Inv.InvoiceNo;
+                        invoiceDatas.InvoiceDate = Inv.InvoiceDate;
+                        invoiceDatas.InvoiceAmount = Inv.InvoiceAmount;
+                        invoiceDatas.PaymentDueDate = Inv.PaymentDueDate;
+                    }
+                    return invoiceDatas;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+
+        }
+
+
+        #endregion
+
+        #region DeleteInvoice
+
+        public int DeleteInvoice(int Id)
+        {
+            int returnVal = 0;
+            try
+            {
+                using (var dBContext1 = new CustomersDatabaseContext())
+                {
+                    Invoice invoiceEntity = new Invoice();
+                    invoiceEntity = dBContext1.Invoice.FirstOrDefault(x => x.Invoiceid == Id);
+                    if (invoiceEntity != null)
+                    {
+                        dBContext1.Invoice.Remove(invoiceEntity);
+                    }
+                    returnVal = dBContext1.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                //throw;
+            }
+            return returnVal;
+        }
+
+
+        #endregion
+
     }
 }

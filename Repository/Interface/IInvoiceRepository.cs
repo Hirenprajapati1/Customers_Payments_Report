@@ -10,7 +10,7 @@ namespace Customers_Payments_Report.Repository.Interface
     {
         public List<InvoiceData> GetInvoices();
         public int AddInvoice(InvoiceData InvoiceModel, string InvoiceNo);
-
-
+        public InvoiceData GetInvoiceById(int id);
+        public int DeleteInvoice(int Id);
     }
 }

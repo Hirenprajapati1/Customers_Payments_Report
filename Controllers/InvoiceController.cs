@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Customers_Payments_Report.Models.common;
+using Customers_Payments_Report.Models.Entity;
 using Customers_Payments_Report.Repository.Interface;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -33,6 +34,18 @@ namespace Customers_Payments_Report.Controllers
         {
             return _invoiceRepository.AddInvoice(InvoiceModel, InvoiceNo);
         }
+
+        [HttpGet("GetInvoiceById/{id}")]
+        public InvoiceData GetInvoiceById(int id)
+        {
+            return _invoiceRepository.GetInvoiceById(id);
+        }
+        [HttpDelete("DeleteInvoice/{id}")]
+        public int DeleteInvoice(int id)
+        {
+            return _invoiceRepository.DeleteInvoice(id);
+        }
+
 
     }
 }

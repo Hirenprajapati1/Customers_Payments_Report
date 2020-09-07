@@ -10,7 +10,8 @@ namespace Customers_Payments_Report.Repository.Interface
     {
         public List<PaymentData> GetPayments();
         public int AddPayment(PaymentData PaymentModel, string PaymentNo);
-
+        public PaymentData GetPaymentById(int id);
+        public int DeletePayment(int Id);
 
     }
 }
