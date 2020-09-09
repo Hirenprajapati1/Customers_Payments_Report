@@ -23,6 +23,7 @@ namespace Customers_Payments_Report.Repository.Class
                     foreach (var Cu in dBContext.Customer.ToList())
                     {
                         Customer1 = new CustomerData();
+                        Customer1.Customerid = Cu.Customerid;
                         Customer1.CustomerNo = Cu.CustomerNo;
                         Customer1.CustomerName = Cu.CustomerName;
                         Customers.Add(Customer1);
@@ -116,6 +117,73 @@ namespace Customers_Payments_Report.Repository.Class
 
         #endregion
 
+        #region UpdateCustomer
+
+        public int EditCustomer(CustomerData EditCust, int Customerid, string CustomerNo)
+        {
+            List<CustomerData> Customers = new List<CustomerData>();
+            int returnVal = 0;
+            try
+            {
+                using (var dBContext1 = new CustomersDatabaseContext())
+                {
+                   // GetCustomer
+                    CustomerData Customer1;
+                    foreach (var cust in dBContext1.Customer.ToList())
+                    {
+                        Customer1 = new CustomerData();
+                        Customer1.Customerid = cust.Customerid;
+                        Customer1.CustomerNo = cust.CustomerNo;
+                        Customers.Add(Customer1);
+                    }
+
+
+                    Customer CustomerEntity = new Customer();
+                    CustomerEntity = dBContext1.Customer.FirstOrDefault(x => x.Customerid == EditCust.Customerid);
+                    if (CustomerEntity != null)
+                    {
+    
+                        CustomerEntity.CustomerNo = EditCust.CustomerNo;
+                        CustomerEntity.CustomerName = EditCust.CustomerName;
+                        dBContext1.Customer.Update(CustomerEntity);
+                        Customerid = CustomerEntity.Customerid;
+                        CustomerNo = CustomerEntity.CustomerNo;
+
+                    }
+
+                    bool Custexist = Customers.Any(x => x.CustomerNo == CustomerNo);
+                    bool Custexist1 =  Customers.Any(x => (x.Customerid == Customerid) && (x.CustomerNo == CustomerNo));
+
+                    if (Custexist1 == true)
+                    {
+                        returnVal = dBContext1.SaveChanges();
+                    }
+                    else if (Custexist == true)
+                    {
+                        returnVal = -1;
+                    }
+                    else
+                    {
+                        returnVal = dBContext1.SaveChanges();
+                    }
+
+
+//                    returnVal = dBContext1.SaveChanges();
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+               Console.WriteLine(ex.Message);
+                //throw;
+            }
+            return returnVal;
+
+        }
+
+        #endregion
+
         #region DeleteCustomer
 
         public int DeleteCustomer(int Id)
@@ -148,6 +216,7 @@ namespace Customers_Payments_Report.Repository.Class
 
 
         #endregion
+
 
     }
 }

@@ -11,6 +11,7 @@ namespace Customers_Payments_Report.Repository.Interface
         public List<CustomerData> GetCustomers();
         public int AddCustomer(CustomerData CustomerModel, string CustomerNo);
         public CustomerData GetCustomerById(int id);
+        public int EditCustomer(CustomerData EditCust, int Customerid, string CustomerNo);
         public int DeleteCustomer(int Id);
     }
 }

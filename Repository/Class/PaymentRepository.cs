@@ -18,7 +18,6 @@ namespace Customers_Payments_Report.Repository.Class
             {
                 using (var dBContext = new CustomersDatabaseContext())
                 {
-                    //GetEmployee
                     PaymentData Payment1;
                     foreach (var Pay in dBContext.Payment.ToList())
                     {
@@ -27,6 +26,7 @@ namespace Customers_Payments_Report.Repository.Class
                         var Cust = dBContext.Customer.FirstOrDefault(x => x.CustomerNo == inv.CustomerNo);
 
                         Payment1 = new PaymentData();
+                        Payment1.Paymentid = Pay.Paymentid;
                         Payment1.PaymentNo = Pay.PaymentNo;
                         Payment1.InvoiceNo = Pay.InvoiceNo;
                         if (Cust != null)
@@ -35,8 +35,6 @@ namespace Customers_Payments_Report.Repository.Class
                         }
                         Payment1.PaymentDate = Pay.PaymentDate;
                         Payment1.PaymentAmount = Pay.PaymentAmount;
-
-                        //employee1.DesignationName = dBContext.TblDesignation.FirstOrDefault(x => x.DesignationId == emp.Designation).DesignationName;
 
                         Payments.Add(Payment1);
 

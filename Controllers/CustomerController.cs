@@ -42,6 +42,13 @@ namespace Customers_Payments_Report.Controllers
             return _customerRepository.GetCustomerById(id);
         }
 
+        [HttpPost("EditCustomer/{id}")]
+        public int EditCustomer([FromBody] CustomerData EditCust, int Customerid, string CustomerNo)
+        {
+            return _customerRepository.EditCustomer(EditCust,Customerid,CustomerNo);
+        }
+
+
         [HttpDelete("DeleteCustomer/{id}")]
         public int DeleteCustomer(int id)
         {

@@ -25,6 +25,7 @@ namespace Customers_Payments_Report.Repository.Class
                         var Cust = dBContext.Customer.FirstOrDefault(x => x.CustomerNo == Invo.CustomerNo);
 
                         Invoice1 = new InvoiceData();
+                        Invoice1.Invoiceid = Invo.Invoiceid;
                         Invoice1.InvoiceNo = Invo.InvoiceNo;
                         Invoice1.CustomerNo = Invo.CustomerNo;
                         if (Cust != null)
