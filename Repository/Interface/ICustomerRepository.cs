@@ -8,10 +8,11 @@ namespace Customers_Payments_Report.Repository.Interface
 {
     public interface ICustomerRepository
     {
+        public List<CustomerData> ShowCustomerNo();
         public List<CustomerData> GetCustomers();
         public int AddCustomer(CustomerData CustomerModel, string CustomerNo);
-        public CustomerData GetCustomerById(int id);
-        public int EditCustomer(CustomerData EditCust, int Customerid, string CustomerNo);
-        public int DeleteCustomer(int Id);
+        public CustomerData GetCustomerById(string no);
+        public int UpdateCustomer(CustomerData EditCust, string CustomerNo);
+        public int DeleteCustomer(string no);
     }
 }

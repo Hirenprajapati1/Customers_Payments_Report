@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Customers_Payments_Report.Models.common;
 using Customers_Payments_Report.Models.Entity;
 using Customers_Payments_Report.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Customers_Payments_Report.Controllers
 {
+//    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowMyOrigin")]
@@ -29,6 +31,13 @@ namespace Customers_Payments_Report.Controllers
         {
             return _invoiceRepository.GetInvoices();
         }
+
+        [HttpGet("ShowInvoiceNo")]
+        public List<InvoiceData> ShowInvoiceNo()
+        {
+            return _invoiceRepository.ShowInvoiceNo();
+        }
+
         [HttpPost("AddInvoice")]
         public int AddInvoice([FromBody] InvoiceData InvoiceModel, string InvoiceNo)
         {
@@ -36,14 +45,34 @@ namespace Customers_Payments_Report.Controllers
         }
 
         [HttpGet("GetInvoiceById/{id}")]
-        public InvoiceData GetInvoiceById(int id)
+        public InvoiceData GetInvoiceById(string id)
         {
             return _invoiceRepository.GetInvoiceById(id);
         }
+     
+        [HttpPost("UpdateInvoice/{id}")]
+        public int UpdateCustomer([FromBody] InvoiceData EditInv)
+        {
+            return _invoiceRepository.UpdateInvoice(EditInv);
+        }
+
+
         [HttpDelete("DeleteInvoice/{id}")]
-        public int DeleteInvoice(int id)
+        public int DeleteInvoice(string id)
         {
             return _invoiceRepository.DeleteInvoice(id);
+        }
+
+        [HttpPost("ListPaymentDelete/{Inv_NO}")]
+        public List<PaymentData> ListPaymentDelete(string Inv_NO)
+        {
+            return _invoiceRepository.ListPaymentDelete(Inv_NO) ;
+        }
+
+        [HttpPost("DeletePaymentByInvoiceNo/{id}")]
+        public int DeletePaymentByInvoiceNo(string id)
+        {
+            return _invoiceRepository.DeletePaymentByInvoiceNo(id);
         }
 
 

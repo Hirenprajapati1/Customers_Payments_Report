@@ -19,9 +19,9 @@ namespace Customers_Payments_Report.Models.common
         //public DateTime MonthPayment { get; set; }
         public string CustomerNo { get; set; }
         public string CustomerName { get; set; }
-        public int NoOfInvoices { get; set; }
-        public int Sales { get; set; }
-        public int PaymentCollection { get; set; }
+        public Decimal NoOfInvoices { get; set; }
+        public Decimal Sales { get; set; }
+        public Decimal PaymentCollection { get; set; }
      
     }
 }

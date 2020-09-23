@@ -8,9 +8,11 @@ using Customers_Payments_Report.Models;
 using Customers_Payments_Report.Repository;
 using Microsoft.AspNetCore.Cors;
 using Customers_Payments_Report.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Customers_Payments_Report.Controllers
 {
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowMyOrigin")]

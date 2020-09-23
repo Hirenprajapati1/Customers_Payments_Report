@@ -12,6 +12,11 @@ using Microsoft.Extensions.Logging;
 using Customers_Payments_Report.Repository;
 using Customers_Payments_Report.Repository.Interface;
 using Customers_Payments_Report.Repository.Class;
+using Customers_Payments_Report.Models.common;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Http;
 
 namespace Customers_Payments_Report
 {
@@ -41,6 +46,33 @@ namespace Customers_Payments_Report
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IAuthenticateRepository, AuthenticateRepository>();
+
+
+            var appSettingsSection = Configuration.GetSection("AppSetting");
+            services.Configure<AppSetting>(appSettingsSection);
+
+            //JWT Authentication
+            var appSetting = appSettingsSection.Get<AppSetting>();
+            var key = Encoding.ASCII.GetBytes(appSetting.Key);
+
+            services.AddAuthentication(au =>
+            {
+                au.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                au.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(jwt =>
+            {
+                jwt.RequireHttpsMetadata = false;
+                jwt.SaveToken = true;
+                jwt.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
 
         }
@@ -59,16 +91,21 @@ namespace Customers_Payments_Report
             //  .SetIsOriginAllowed((host) => true)
             //  .AllowCredentials()
             //  );
-            
+
             app.UseRouting();
             app.UseCors();
-          //  app.UseHttpsRedirection();
-            
+            //  app.UseHttpsRedirection();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("could not found any thing");
             });
         }
     }

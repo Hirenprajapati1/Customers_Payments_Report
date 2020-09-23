@@ -15,6 +15,8 @@ namespace Customers_Payments_Report.Models.Entity
         {
         }
 
+        public virtual DbSet<Admin> Admin { get; set; }
+        public virtual DbSet<AutoIncrimentNo> AutoIncrimentNo { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Invoice> Invoice { get; set; }
         public virtual DbSet<Payment> Payment { get; set; }
@@ -30,6 +32,48 @@ namespace Customers_Payments_Report.Models.Entity
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Admin>(entity =>
+            {
+                entity.HasKey(e => e.Name)
+                    .HasName("PK__tmp_ms_x__737584F7C67660C1");
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasColumnName("FirstName ")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Gender)
+                    .IsRequired()
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Region)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<AutoIncrimentNo>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("Auto Incriment No");
+
+                entity.Property(e => e.LastCustomerNo).HasMaxLength(10);
+
+                entity.Property(e => e.LastInvoiceNo).HasMaxLength(10);
+
+                entity.Property(e => e.LastPaymentNo).HasMaxLength(10);
+            });
+
             modelBuilder.Entity<Customer>(entity =>
             {
                 entity.HasKey(e => e.CustomerNo);
@@ -39,8 +83,6 @@ namespace Customers_Payments_Report.Models.Entity
                 entity.Property(e => e.CustomerName)
                     .IsRequired()
                     .HasMaxLength(50);
-
-                entity.Property(e => e.Customerid).ValueGeneratedOnAdd();
             });
 
             modelBuilder.Entity<Invoice>(entity =>
@@ -53,9 +95,9 @@ namespace Customers_Payments_Report.Models.Entity
                     .IsRequired()
                     .HasMaxLength(10);
 
-                entity.Property(e => e.InvoiceDate).HasColumnType("datetime");
+                entity.Property(e => e.InvoiceAmount).HasColumnType("money");
 
-                entity.Property(e => e.Invoiceid).ValueGeneratedOnAdd();
+                entity.Property(e => e.InvoiceDate).HasColumnType("datetime");
 
                 entity.Property(e => e.PaymentDueDate).HasColumnType("datetime");
             });
@@ -70,9 +112,9 @@ namespace Customers_Payments_Report.Models.Entity
                     .IsRequired()
                     .HasMaxLength(10);
 
-                entity.Property(e => e.PaymentDate).HasColumnType("datetime");
+                entity.Property(e => e.PaymentAmount).HasColumnType("money");
 
-                entity.Property(e => e.Paymentid).ValueGeneratedOnAdd();
+                entity.Property(e => e.PaymentDate).HasColumnType("datetime");
             });
 
             OnModelCreatingPartial(modelBuilder);

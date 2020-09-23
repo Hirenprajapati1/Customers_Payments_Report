@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Customers_Payments_Report.Models.common;
 using Customers_Payments_Report.Models.Entity;
 using Customers_Payments_Report.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Customers_Payments_Report.Controllers
 {
+ //   [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowMyOrigin")]
@@ -21,6 +23,13 @@ namespace Customers_Payments_Report.Controllers
         public CustomerController(ICustomerRepository customerRepository)
         {
             _customerRepository = customerRepository;
+        }
+
+
+        [HttpGet("ShowCustomerNo")]
+        public List<CustomerData> ShowCustomerNo()
+        {
+            return _customerRepository.ShowCustomerNo();
         }
 
 
@@ -37,20 +46,20 @@ namespace Customers_Payments_Report.Controllers
         }
 
         [HttpGet("GetCustomerById/{id}")]
-        public CustomerData GetCustomerById(int id)
+        public CustomerData GetCustomerById(string id)
         {
             return _customerRepository.GetCustomerById(id);
         }
 
-        [HttpPost("EditCustomer/{id}")]
-        public int EditCustomer([FromBody] CustomerData EditCust, int Customerid, string CustomerNo)
+        [HttpPost("UpdateCustomer/{id}")]
+        public int UpdateCustomer([FromBody] CustomerData EditCust, string CustomerNo)
         {
-            return _customerRepository.EditCustomer(EditCust,Customerid,CustomerNo);
+            return _customerRepository.UpdateCustomer(EditCust,CustomerNo);
         }
 
 
         [HttpDelete("DeleteCustomer/{id}")]
-        public int DeleteCustomer(int id)
+        public int DeleteCustomer(string id)
         {
             return _customerRepository.DeleteCustomer(id);
         }

@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace Customers_Payments_Report.Models.Entity
+{
+    public partial class AutoIncrimentNo
+    {
+        public string LastCustomerNo { get; set; }
+        public string LastInvoiceNo { get; set; }
+        public string LastPaymentNo { get; set; }
+    }
+}

@@ -9,9 +9,10 @@ namespace Customers_Payments_Report.Repository.Interface
     public interface IPaymentRepository
     {
         public List<PaymentData> GetPayments();
+        public List<PaymentData> ShowPaymentNo();
         public int AddPayment(PaymentData PaymentModel, string PaymentNo);
-        public PaymentData GetPaymentById(int id);
-        public int DeletePayment(int Id);
-
+        public PaymentData GetPaymentById(string no);
+        public int UpdatePayment(PaymentData Editpay);
+        public int DeletePayment(string no);
     }
 }

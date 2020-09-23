@@ -65,19 +65,24 @@ namespace Customers_Payments_Report.Repository.Class
                     foreach (var PayInv in dBContext.Payment.ToList())
                     {
                         Report1 = new ReportData();
-                        var inv = dBContext.Invoice.FirstOrDefault(x => x.InvoiceNo == PayInv.InvoiceNo);
 
-                        var Cust = dBContext.Customer.FirstOrDefault(x => x.CustomerNo == inv.CustomerNo);
+
                         if (PayInv != null)
                         {
+                            var inv = dBContext.Invoice.FirstOrDefault(x => x.InvoiceNo == PayInv.InvoiceNo);
                             Report1.DateOfMonthPay = new DateTime(PayInv.PaymentDate.Year, PayInv.PaymentDate.Month, 11);
                             Report1.DateOfMonth = Report1.DateOfMonthPay;
-                        }
 
-                        if (Cust != null)
-                        {
-                            Report1.CustomerNo = Cust.CustomerNo;
-                            Report1.CustomerName = Cust.CustomerName;
+                            if (inv != null)
+                            {
+                                var Cust = dBContext.Customer.FirstOrDefault(x => x.CustomerNo == inv.CustomerNo);
+                                if (Cust != null)
+                                {
+
+                                    Report1.CustomerNo = Cust.CustomerNo;
+                                    Report1.CustomerName = Cust.CustomerName;
+                                }
+                            }
                         }
                         Boolean b = false;
 
@@ -103,6 +108,7 @@ namespace Customers_Payments_Report.Repository.Class
                             }
                             Reports.Add(Report1);
                         }
+
 
                     }
                 }

@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 using Customers_Payments_Report.Models.common;
 using Customers_Payments_Report.Models.Entity;
 using Customers_Payments_Report.Repository.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Customers_Payments_Report.Controllers
 {
+  //  [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowMyOrigin")]
@@ -29,6 +31,15 @@ namespace Customers_Payments_Report.Controllers
         {
             return _paymentRepository.GetPayments();
         }
+
+
+
+        [HttpGet("ShowPaymentNo")]
+        public List<PaymentData> ShowPaymentNo()
+        {
+            return _paymentRepository.ShowPaymentNo();
+        }
+
         [HttpPost("AddPayment")]
         public int AddPayment([FromBody] PaymentData PaymentModel, string PaymentNo)
         {
@@ -36,13 +47,19 @@ namespace Customers_Payments_Report.Controllers
         }
 
         [HttpGet("GetPaymentById/{id}")]
-        public PaymentData GetPaymentById(int id)
+        public PaymentData GetPaymentById(string id)
         {
             return _paymentRepository.GetPaymentById(id);
         }
+        [HttpPost("UpdatePayment/{id}")]
+        public int UpdatePayment([FromBody] PaymentData Editpay)
+        {
+            return _paymentRepository.UpdatePayment(Editpay);
+        }
+
 
         [HttpDelete("DeletePayment/{id}")]
-        public int DeletePayment(int id)
+        public int DeletePayment(string id)
         {
             return _paymentRepository.DeletePayment(id);
         }

@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Customers_Payments_Report.Models.common
 {
-    public class CustomerData1
+    public class AppSetting
     {
-        public string CustomerNo { get; set; }
-        public string CustomerName { get; set; }
+        public string Key { get; set; }
     }
 }

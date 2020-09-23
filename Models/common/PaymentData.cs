@@ -7,13 +7,13 @@ namespace Customers_Payments_Report.Models.common
 {
     public class PaymentData
     {
-        public int Paymentid { get; set; }
+      //  public int Paymentid { get; set; }
 
         public string PaymentNo { get; set; }
         public string CustomerName { get; set; }
 
         public string InvoiceNo { get; set; }
         public DateTime PaymentDate { get; set; }
-        public int PaymentAmount { get; set; }
+        public Decimal PaymentAmount { get; set; }
     }
 }

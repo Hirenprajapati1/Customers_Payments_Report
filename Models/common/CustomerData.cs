@@ -7,7 +7,7 @@ namespace Customers_Payments_Report.Models.common
 {
     public class CustomerData
     {
-        public int Customerid { get; set; }
+     //   public int Customerid { get; set; }
         public string CustomerNo { get; set; }
         public string CustomerName { get; set; }
     }
