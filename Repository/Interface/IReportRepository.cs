@@ -11,6 +11,8 @@ namespace Customers_Payments_Report.Repository.Interface
         public List<ReportData> GetReport();
         public List<ReportData1> GetReport1();
 
+        public List<Dashboarddata> GetDashbordData();
+
 
 
     }

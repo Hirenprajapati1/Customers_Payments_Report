@@ -11,6 +11,103 @@ namespace Customers_Payments_Report.Repository.Class
 {
     public class ReportRepository : IReportRepository
     {
+
+        #region DashBord Data
+        public List<Dashboarddata> GetDashbordData()
+        {
+            List<Dashboarddata> DashBordDetails = new List<Dashboarddata>();
+            try
+            {
+                using (var dBContext = new CustomersDatabaseContext())
+                {
+                    Dashboarddata dashboard1 = new Dashboarddata();
+                    dashboard1.TotelCustomer = dBContext.Customer.Count();
+                    dashboard1.TotelInvoices = dBContext.Invoice.Count();
+                    dashboard1.TotelPayments = dBContext.Payment.Count();
+                    DateTime Today = DateTime.Today;
+                    var Month = (Today.Month);
+                    var Year = (Today.Year);
+              
+                    {
+                        //dashboard1.CustomerMonthly = 0;
+                        //dashboard1.CustomerYaerly = 0;
+                        //dashboard1.SalesMonthly = 0;
+                        //dashboard1.SalesYearly = 0;
+                        //dashboard1.TotelSeles = 0;
+                        //dashboard1.PaymentCollestionsYearly = 0;
+                        //dashboard1.PaymentCollestionsMonthly = 0;
+                        //dashboard1.TotelPaymentCollestions = 0;
+                    }
+                    //dashboard1.CustomerMonthly = dBContext.Customer.Where(x => x.CreatedDate.Month == Month && x.CreatedDate.Year == Year).Count(x => x.CustomerNo);
+          
+                    foreach (var Cu in dBContext.Customer.ToList())
+                    {
+                        if (Cu.CreatedDate != null)
+                        {
+                            if (Cu.CreatedDate.Year == Year)
+                            {
+                                dashboard1.CustomerYaerly += 1;
+
+                                if (Cu.CreatedDate.Month == Month)
+                                {
+                                    dashboard1.CustomerMonthly += 1;
+                                }
+                            }
+                        }
+                    }
+
+                    foreach (var inv in dBContext.Invoice.ToList())
+                    {
+                        if (inv.InvoiceDate.Year == Year)
+                        {
+                            dashboard1.SalesYearly += inv.InvoiceAmount;
+                            dashboard1.InvoiceYearly += 1;
+                            if (inv.InvoiceDate.Month == Month)
+                            {
+                                dashboard1.SalesMonthly += inv.InvoiceAmount;
+                                dashboard1.InvoiceMonthly += 1;
+                            }
+                        }
+                        dashboard1.TotelSeles += inv.InvoiceAmount;
+                    }
+
+                    foreach (var Pay in dBContext.Payment.ToList())
+                    {
+                        if (Pay.PaymentDate.Year == Year)
+                        {
+                            dashboard1.PaymentCollestionsYearly += Pay.PaymentAmount;
+                            dashboard1.PaymentsYearly += 1;
+                            if (Pay.PaymentDate.Month == Month)
+                            {
+                                dashboard1.PaymentCollestionsMonthly += Pay.PaymentAmount;
+                                dashboard1.PaymentsMonthly += 1;
+                            }
+                        }
+                        
+                        dashboard1.TotelPaymentCollestions += Pay.PaymentAmount;
+                    }
+
+                    dashboard1.CustomerMonthlyGroth = (dashboard1.CustomerMonthly / dashboard1.TotelCustomer) * 100;
+                    dashboard1.CustomerYearlyGroth = (dashboard1.CustomerYaerly / dashboard1.TotelCustomer) * 100;
+
+                    dashboard1.SalesMonthlyGroth =Convert.ToInt32(( dashboard1.SalesMonthly / dashboard1.TotelSeles)*100);
+                    dashboard1.SalesYearlyGroth = Convert.ToInt32((dashboard1.SalesYearly / dashboard1.TotelSeles)*100);
+
+                    dashboard1.PaymentCollestionsMonthlyGroth =Convert.ToInt32 ((dashboard1.PaymentCollestionsMonthly / dashboard1.TotelPaymentCollestions) * 100);
+                    dashboard1.PaymentCollestionsYearlyGroth = Convert.ToInt32((dashboard1.PaymentCollestionsYearly / dashboard1.TotelPaymentCollestions) * 100);
+
+                    DashBordDetails.Add(dashboard1);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return DashBordDetails;
+        }
+        #endregion
+
         #region GetReport1
 
         public List<ReportData1> GetReport1()
@@ -20,18 +117,17 @@ namespace Customers_Payments_Report.Repository.Class
             {
                 using (var dBContext = new CustomersDatabaseContext())
                 {
-                    //GetEmployee
                     ReportData1 Report1;
                     foreach (var Cu in dBContext.Customer.ToList())
                     {
-                        
+
                         Report1 = new ReportData1();
                         Report1.CustomerNo = Cu.CustomerNo;
                         Report1.CustomerName = Cu.CustomerName;
                         var Inv = dBContext.Invoice.FirstOrDefault(x => x.CustomerNo == Cu.CustomerNo);
                         if (Inv != null)
                         {
-                            Report1.TotelInvoiceAmount = dBContext.Invoice.Where(x => x.CustomerNo == Inv.CustomerNo).Sum(x =>x.InvoiceAmount);
+                            Report1.TotelInvoiceAmount = dBContext.Invoice.Where(x => x.CustomerNo == Inv.CustomerNo).Sum(x => x.InvoiceAmount);
                             var pay = dBContext.Payment.FirstOrDefault(x => x.InvoiceNo == Inv.InvoiceNo);
                             if (pay != null)
                             {
@@ -51,7 +147,7 @@ namespace Customers_Payments_Report.Repository.Class
                             {
                                 Report1 = new ReportData1();
                                 var cust = dBContext.Customer.FirstOrDefault(x => x.CustomerNo == inv.CustomerNo);
-                              //  Report1.TotelPaymentAmount=
+                                //  Report1.TotelPaymentAmount=
                             }
                             Boolean b = false;
 
