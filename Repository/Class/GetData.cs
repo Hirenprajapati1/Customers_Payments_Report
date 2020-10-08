@@ -78,7 +78,7 @@ namespace Customers_Payments_Report.Repository.Class
                             // Report1.PaymentCollection = dBContext.Pyment.FirstOrDefault(x => x.InvoiceNo == Inv.InvoiceNo).PaymentAmount;
                             Report1.Sales = Inv.InvoiceAmount;
                             i++;
-                            Report1.No = i;
+                        //    Report1.No = i;
                             Reports.Add(Report1);
                         }
 
@@ -222,7 +222,7 @@ namespace Customers_Payments_Report.Repository.Class
                         var inv = dBContext.Invoice.FirstOrDefault(x => x.InvoiceNo == PayInv.InvoiceNo);
 
                         var Cust = dBContext.Customer.FirstOrDefault(x => x.CustomerNo == inv.CustomerNo);
-                        if(PayInv != null)
+                        if (PayInv != null)
                         {
                             Report1.DateOfMonthPay = new DateTime(PayInv.PaymentDate.Year, PayInv.PaymentDate.Month, 11);
                             Report1.DateOfMonth = Report1.DateOfMonthPay;
@@ -242,7 +242,7 @@ namespace Customers_Payments_Report.Repository.Class
                             if (a.DateOfMonthPay == Report1.DateOfMonthPay && a.CustomerNo == Report1.CustomerNo)
                             {
                                 //   a.PaymentCollection = a.PaymentCollection + dBContext.Pyment.FirstOrDefault(x => x.InvoiceNo == Inv.InvoiceNo).PaymentAmount;
-                             if(PayInv != null)
+                                if (PayInv != null)
                                 {
                                     a.PaymentCollection = PayInv.PaymentAmount + a.PaymentCollection;
                                 }
@@ -252,7 +252,7 @@ namespace Customers_Payments_Report.Repository.Class
                         if (b == false)
                         {
                             // Report1.PaymentCollection = dBContext.Pyment.FirstOrDefault(x => x.InvoiceNo == Inv.InvoiceNo).PaymentAmount;
-                            if(PayInv != null)
+                            if (PayInv != null)
                             {
                                 Report1.PaymentCollection = PayInv.PaymentAmount;
                             }
@@ -497,7 +497,7 @@ namespace Customers_Payments_Report.Repository.Class
                         Invoice1.InvoiceDate = Invo.InvoiceDate;
                         Invoice1.InvoiceAmount = Invo.InvoiceAmount;
                         Invoice1.PaymentDueDate = Invo.PaymentDueDate;
-                       
+
                         Invoices.Add(Invoice1);
 
                     }

@@ -5,6 +5,7 @@ namespace Customers_Payments_Report.Models.Entity
 {
     public partial class AutoIncrimentNo
     {
+        public int Id { get; set; }
         public string LastCustomerNo { get; set; }
         public string LastInvoiceNo { get; set; }
         public string LastPaymentNo { get; set; }

@@ -18,6 +18,7 @@ namespace Customers_Payments_Report.Models.Entity
         public virtual DbSet<Admin> Admin { get; set; }
         public virtual DbSet<AutoIncrimentNo> AutoIncrimentNo { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
+        public virtual DbSet<GeneralSettings> GeneralSettings { get; set; }
         public virtual DbSet<Invoice> Invoice { get; set; }
         public virtual DbSet<Payment> Payment { get; set; }
 
@@ -63,15 +64,21 @@ namespace Customers_Payments_Report.Models.Entity
 
             modelBuilder.Entity<AutoIncrimentNo>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("Auto Incriment No");
 
-                entity.Property(e => e.LastCustomerNo).HasMaxLength(10);
+                entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.LastInvoiceNo).HasMaxLength(10);
+                entity.Property(e => e.LastCustomerNo)
+                    .IsRequired()
+                    .HasMaxLength(10);
 
-                entity.Property(e => e.LastPaymentNo).HasMaxLength(10);
+                entity.Property(e => e.LastInvoiceNo)
+                    .IsRequired()
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.LastPaymentNo)
+                    .IsRequired()
+                    .HasMaxLength(10);
             });
 
             modelBuilder.Entity<Customer>(entity =>
@@ -80,9 +87,32 @@ namespace Customers_Payments_Report.Models.Entity
 
                 entity.Property(e => e.CustomerNo).HasMaxLength(10);
 
+                entity.Property(e => e.CreatedBy)
+                    .HasColumnName("Created_by")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnName("Created_date")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.CustomerName)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.ModifyBy)
+                    .HasColumnName("Modify_by")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ModifyDate)
+                    .HasColumnName("Modify_date")
+                    .HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<GeneralSettings>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Invoice>(entity =>
@@ -91,6 +121,14 @@ namespace Customers_Payments_Report.Models.Entity
 
                 entity.Property(e => e.InvoiceNo).HasMaxLength(10);
 
+                entity.Property(e => e.CreatedBy)
+                    .HasColumnName("Created_by")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnName("Created_date")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.CustomerNo)
                     .IsRequired()
                     .HasMaxLength(10);
@@ -98,6 +136,14 @@ namespace Customers_Payments_Report.Models.Entity
                 entity.Property(e => e.InvoiceAmount).HasColumnType("money");
 
                 entity.Property(e => e.InvoiceDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifyBy)
+                    .HasColumnName("Modify_by")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ModifyDate)
+                    .HasColumnName("Modify_date")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.PaymentDueDate).HasColumnType("datetime");
             });
@@ -108,9 +154,25 @@ namespace Customers_Payments_Report.Models.Entity
 
                 entity.Property(e => e.PaymentNo).HasMaxLength(10);
 
+                entity.Property(e => e.CreatedBy)
+                    .HasColumnName("Created_by")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnName("Created_date")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.InvoiceNo)
                     .IsRequired()
                     .HasMaxLength(10);
+
+                entity.Property(e => e.ModifyBy)
+                    .HasColumnName("Modify_by")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ModifyDate)
+                    .HasColumnName("Modify_date")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.PaymentAmount).HasColumnType("money");
 

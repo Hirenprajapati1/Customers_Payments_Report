@@ -12,7 +12,7 @@ namespace Customers_Payments_Report.Repository.Class
 {
     public class InvoiceRepository : IInvoiceRepository
     {
-        string str;
+        string str,str1;
         #region ListInvoice
         public List<InvoiceData> GetInvoices()
         {
@@ -99,17 +99,67 @@ namespace Customers_Payments_Report.Repository.Class
         }
         #endregion
 
+        #region ShowInvoiceNoByTable
+        public List<InvoiceData> ShowInvoiceNoByTable()
+        {
+            List<InvoiceData> Invoices = new List<InvoiceData>();
+            List<InvoiceData> Invoices1 = new List<InvoiceData>();
+            //List<AutoIncrimentNoData> Autos = new List<AutoIncrimentNoData>();
+            using (var dBContext = new CustomersDatabaseContext())
+            {
+                InvoiceData Inv1;
+                foreach (var inv in dBContext.Invoice.ToList())
+                {
+                    Inv1 = new InvoiceData();
+                    Inv1.InvoiceNo = inv.InvoiceNo;
+                    Invoices.Add(Inv1);
+                }
+
+                InvoiceData Invoice2;
+                foreach (var Au in dBContext.AutoIncrimentNo.ToList())
+                {
+                    Invoice2 = new InvoiceData();
+                    int num;
+                    num = Convert.ToInt32(Au.LastInvoiceNo);
+                    num += 1;
+
+                    str = "I" + num.ToString("D5");
+                    X:
+                    bool No = Invoices.Any(x => x.InvoiceNo == str);
+                    if (No == true)
+                    {
+                        //   str = str.Substring(1);
+                        num += 1;
+                        str = "I" + num.ToString("D5");
+                        goto X;
+
+                    }
+                    str1 = str.Substring(1);
+                    Invoice2.InvoiceNo = str1;
+                    Invoices1.Add(Invoice2);
+                }
+
+            }
+
+            return Invoices1;
+
+        }
+        #endregion
+
         #region AddInvoice
         public int AddInvoice(InvoiceData InvoiceModel, string InvoiceNo)
         {
             int returnVal = 0;
             List<InvoiceData> invoices = new List<InvoiceData>();
+            List<AutoIncrimentNoData> autos = new List<AutoIncrimentNoData>();
             try
             {
                 using (var dBContext = new CustomersDatabaseContext())
                 {
                     //GetEmployee
                     InvoiceData Invoice1;
+                    AutoIncrimentNo Auto1 = new AutoIncrimentNo();
+
                     foreach (var inv in dBContext.Invoice.ToList())
                     {
                         Invoice1 = new InvoiceData();
@@ -117,13 +167,108 @@ namespace Customers_Payments_Report.Repository.Class
                         invoices.Add(Invoice1);
                     }
                     Invoice InvoiceEntity;
+
                     //Add Invoice
                     InvoiceEntity = new Invoice();
+
                     if (InvoiceModel.InvoiceNo == null)
                     {
-                        ShowInvoiceNo();
+                        //ShowInvoiceNo();
+                        ShowInvoiceNoByTable();
                         InvoiceModel.InvoiceNo = str;
                     }
+                    InvoiceEntity.InvoiceNo = InvoiceModel.InvoiceNo;
+                    InvoiceEntity.InvoiceAmount = InvoiceModel.InvoiceAmount;
+                    //InvoiceEntity.InvoiceDate = InvoiceModel.InvoiceDate;
+                    if (InvoiceModel.InvoiceDate == DateTime.MinValue)
+                    {
+                        InvoiceEntity.InvoiceDate = DateTime.Now;
+                    }
+                    else
+                    {
+                        InvoiceEntity.InvoiceDate = InvoiceModel.InvoiceDate;
+                    }
+                    InvoiceEntity.PaymentDueDate = InvoiceEntity.InvoiceDate.AddDays(30);
+                    InvoiceEntity.CustomerNo = InvoiceModel.CustomerNo;
+                    InvoiceEntity.CreatedDate = DateTime.UtcNow;
+                    InvoiceEntity.CreatedBy = InvoiceModel.CreatedBy;
+
+                    //  InvoiceNo = InvoiceEntity.InvoiceNo;
+
+
+                    int Num = Convert.ToInt32(InvoiceEntity.InvoiceNo.Substring(1));
+                    string Num1 = Convert.ToString(Num);
+                    foreach (var Au in dBContext.AutoIncrimentNo.ToList())
+                    {
+
+                        Auto1.LastCustomerNo = Au.LastCustomerNo;
+                        Auto1.LastInvoiceNo = Num1;
+                        Auto1.LastPaymentNo = Au.LastPaymentNo;
+                        // autos.Add(Auto1);
+
+                    }
+                    var rows = from a1 in dBContext.AutoIncrimentNo
+                               select a1;
+                    foreach (var row in rows)
+                    {
+                        if (row != null)
+                        {
+                            dBContext.AutoIncrimentNo.Remove(row);
+                            //dbcontext.savechanges();
+                        }
+                    }
+
+
+
+                    bool InvoiceNoexist = invoices.Any(x => x.InvoiceNo == InvoiceEntity.InvoiceNo);
+                    if (InvoiceNoexist == true)
+                    {
+                        returnVal = -1;
+                    }
+                    else
+                    {
+                        dBContext.Invoice.Add(InvoiceEntity);
+                        dBContext.AutoIncrimentNo.Add(Auto1);
+
+                        returnVal = dBContext.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                //throw;
+            }
+            return returnVal;
+        }
+
+        #endregion
+
+        #region AddInvoiceNoByUser
+        public int AddInvoiceNoByUser(InvoiceData InvoiceModel)
+        {
+            int returnVal = 0;
+            List<InvoiceData> Invoices = new List<InvoiceData>();
+            try
+            {
+                using (var dBContext = new CustomersDatabaseContext())
+                {
+                    InvoiceData Invoice1;
+
+                    foreach (var Inv in dBContext.Invoice.ToList())
+                    {
+                        Invoice1 = new InvoiceData();
+                        Invoice1.InvoiceNo = Inv.InvoiceNo;
+                        Invoices.Add(Invoice1);
+                    }
+                    //AddInvoice
+                    Invoice InvoiceEntity = new Invoice();
+                    //if (InvoiceModel.InvoiceNo == null)
+                    //{
+                    //    //ShowInvoiceNo();
+                    //    ShowInvoiceNoByTable();
+                    //    InvoiceModel.InvoiceNo = str;
+                    //}
                     InvoiceEntity.InvoiceNo = InvoiceModel.InvoiceNo;
                     InvoiceEntity.InvoiceAmount = InvoiceModel.InvoiceAmount;
                     //InvoiceEntity.InvoiceDate = InvoiceModel.InvoiceDate;
@@ -137,16 +282,18 @@ namespace Customers_Payments_Report.Repository.Class
                     }
                     InvoiceEntity.PaymentDueDate = InvoiceEntity.InvoiceDate.AddDays(30);
                     InvoiceEntity.CustomerNo = InvoiceModel.CustomerNo;
-                    InvoiceNo = InvoiceEntity.InvoiceNo;
+                    InvoiceEntity.CreatedDate = DateTime.Now;
+                    InvoiceEntity.CreatedBy = InvoiceModel.CreatedBy;
 
-                    bool InvoiceNoexist = invoices.Any(x => x.InvoiceNo == InvoiceNo);
+                    bool InvoiceNoexist = Invoices.Any(x => x.InvoiceNo == InvoiceEntity.InvoiceNo);
                     if (InvoiceNoexist == true)
                     {
                         returnVal = -1;
                     }
-                    else
+                    if (InvoiceNoexist == false)
                     {
                         dBContext.Invoice.Add(InvoiceEntity);
+                        //     dBContext.AutoIncrimentNo.Add(Auto1);
                         returnVal = dBContext.SaveChanges();
                     }
                 }
@@ -227,6 +374,8 @@ namespace Customers_Payments_Report.Repository.Class
                         InvoiceEntity.InvoiceDate = EditInv.InvoiceDate;
                         InvoiceEntity.InvoiceAmount = EditInv.InvoiceAmount;
                         InvoiceEntity.PaymentDueDate = InvoiceEntity.InvoiceDate.AddDays(30);
+                        InvoiceEntity.ModifyDate = DateTime.Now;
+                        InvoiceEntity.ModifyBy = EditInv.ModifyBy;
                         dBContext1.Invoice.Update(InvoiceEntity);
                     }
                     returnVal = dBContext1.SaveChanges();

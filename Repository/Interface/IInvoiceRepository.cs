@@ -16,5 +16,9 @@ namespace Customers_Payments_Report.Repository.Interface
         public int UpdateInvoice(InvoiceData EditInv);
         public int DeleteInvoice(string no);
         public int DeletePaymentByInvoiceNo(string no);
+        public List<InvoiceData> ShowInvoiceNoByTable();
+        public int AddInvoiceNoByUser(InvoiceData InvoiceModel);
+
+
     }
 }

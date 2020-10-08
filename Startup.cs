@@ -42,6 +42,7 @@ namespace Customers_Payments_Report
 
             services.AddControllers();
             services.AddScoped<IGetData, GetData>();
+            services.AddScoped<IGeneralSettingsRepository, GeneralSettingsRepository>();
             services.AddScoped<IReportRepository, ReportRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();

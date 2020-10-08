@@ -5,11 +5,14 @@ using System.Threading.Tasks;
 
 namespace Customers_Payments_Report.Models.common
 {
-    public class CustomerData
+    public class Invoice2Data
     {
-     //   public int Customerid { get; set; }
-        public string CustomerNo { get; set; }
-        public string CustomerName { get; set; }
+        public string InvoiceNo { get; set; }
+        public DateTime InvoiceDate { get; set; }
+        public decimal InvoiceAmount { get; set; }
+        public DateTime PaymentDueDate { get; set; }
+        public Decimal PaymentAmount { get; set; }
+        public Decimal PaymentAmountRemening { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string ModifyBy { get; set; }

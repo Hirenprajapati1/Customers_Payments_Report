@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Customers_Payments_Report.Controllers
 {
-  //  [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowMyOrigin")]
@@ -32,20 +32,31 @@ namespace Customers_Payments_Report.Controllers
             return _paymentRepository.GetPayments();
         }
 
-
-
         [HttpGet("ShowPaymentNo")]
         public List<PaymentData> ShowPaymentNo()
         {
             return _paymentRepository.ShowPaymentNo();
         }
 
-        [HttpPost("AddPayment")]
-        public int AddPayment([FromBody] PaymentData PaymentModel, string PaymentNo)
+        [HttpGet("ShowPaymentNoByTable")]
+        public List<PaymentData> ShowPaymentNoByTable()
         {
-            return _paymentRepository.AddPayment(PaymentModel, PaymentNo);
+            return _paymentRepository.ShowPaymentNoByTable();
         }
 
+
+        [HttpPost("AddPayment")]
+        public int AddPayment([FromBody] PaymentData PaymentModel)
+        {
+            return _paymentRepository.AddPayment(PaymentModel);
+        }
+
+
+        [HttpPost("AddPaymentNoByUser")]
+        public int AddPaymentNoByUser([FromBody] PaymentData PaymentModel)
+        {
+            return _paymentRepository.AddPaymentNoByUser(PaymentModel);
+        }
         [HttpGet("GetPaymentById/{id}")]
         public PaymentData GetPaymentById(string id)
         {
@@ -62,6 +73,24 @@ namespace Customers_Payments_Report.Controllers
         public int DeletePayment(string id)
         {
             return _paymentRepository.DeletePayment(id);
+        }
+
+        [HttpGet("GetInvoiceNoByCustomerNo/{no}")]
+        public List<InvoiceData> GetInvoiceNoByCustomerNo(string no)
+        {
+            return _paymentRepository.GetInvoiceNoByCustomerNo(no);
+        }
+
+        [HttpGet("GetInvoiceDetailsByNo/{no}")]
+        public List<Invoice2Data> GetInvoiceDetailsByNo(string no)
+        {
+            return _paymentRepository.GetInvoiceDetailsByNo(no);
+        }
+
+        [HttpGet("GetCustNoByInvNo/{no}")]
+        public List<CustomerData> GetCustNoByInvNo(string no)
+        {
+            return _paymentRepository.GetCustNoByInvNo(no);
         }
 
     }

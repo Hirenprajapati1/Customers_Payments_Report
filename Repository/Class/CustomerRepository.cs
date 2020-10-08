@@ -11,7 +11,7 @@ namespace Customers_Payments_Report.Repository.Class
 {
     public class CustomerRepository : ICustomerRepository
     {
-        string str;
+        string str,str1;
 
         #region ListCustomers
         public List<CustomerData> GetCustomers()
@@ -29,6 +29,7 @@ namespace Customers_Payments_Report.Repository.Class
                         //           Customer1.Customerid = Cu.Customerid;
                         Customer1.CustomerNo = Cu.CustomerNo;
                         Customer1.CustomerName = Cu.CustomerName;
+                        
                         Customers.Add(Customer1);
                     }
                 }
@@ -87,8 +88,55 @@ namespace Customers_Payments_Report.Repository.Class
         }
         #endregion
 
-        #region AddCustomer
-        public int AddCustomer(CustomerData CustomerModel, string Customerno)
+        #region ShowCustomerNoByTable
+        public List<CustomerData> ShowCustomerNoByTable()
+        {
+            List<CustomerData> Customers = new List<CustomerData>();
+            List<CustomerData> Customers1 = new List<CustomerData>();
+            //List<AutoIncrimentNoData> Autos = new List<AutoIncrimentNoData>();
+            using (var dBContext = new CustomersDatabaseContext())
+            {
+                CustomerData Customer1;
+                foreach (var Cust in dBContext.Customer.ToList())
+                {
+                    Customer1 = new CustomerData();
+                    Customer1.CustomerNo = Cust.CustomerNo;
+                    Customers.Add(Customer1);
+                }
+
+                CustomerData Customer2;
+                foreach (var Au in dBContext.AutoIncrimentNo.ToList())
+                {
+                    Customer2 = new CustomerData();
+                    int num;
+                    num = Convert.ToInt32(Au.LastCustomerNo);
+                    num += 1;
+               
+                    str = "C" + num.ToString("D5");
+                    X:
+                    bool No = Customers.Any(x => x.CustomerNo == str);
+                    if (No == true)
+                    {
+                        //   str = str.Substring(1);
+                        num += 1;
+                        str = "C" + num.ToString("D5");
+                        goto X;
+
+                    }
+                    str1 = str.Substring(1);
+                    Customer2.CustomerNo =str1;
+                    Customers1.Add(Customer2);
+                }
+
+            }
+
+            return Customers1;
+
+        }
+        #endregion
+
+        #region AddCustomerNoByUser
+        public int AddCustomerNoByUser(CustomerData CustomerModel)
         {
             int returnVal = 0;
             List<CustomerData> Customers = new List<CustomerData>();
@@ -98,6 +146,59 @@ namespace Customers_Payments_Report.Repository.Class
                 {
                     //GetCustomerNO
                     CustomerData Customer1;
+                    
+                    foreach (var Cust in dBContext.Customer.ToList())
+                    {
+                        Customer1 = new CustomerData();
+                        Customer1.CustomerNo = Cust.CustomerNo;
+                        Customers.Add(Customer1);
+                    }
+                    //AddCustomer
+                    Customer CustomerEntity = new Customer();
+                    CustomerEntity.CustomerNo = CustomerModel.CustomerNo;
+                    CustomerEntity.CustomerName = CustomerModel.CustomerName;
+                    CustomerEntity.CreatedDate = DateTime.Now;
+                    if(CustomerModel.CreatedBy != null) { 
+                    CustomerEntity.CreatedBy = CustomerModel.CreatedBy;
+                    }
+                    bool CustomerNoexist = Customers.Any(x => x.CustomerNo == CustomerEntity.CustomerNo);
+                    if (CustomerNoexist == true)
+                    {
+                        returnVal = -1;
+                    }
+
+                    if (CustomerNoexist == false)
+                    {
+                        dBContext.Customer.Add(CustomerEntity);
+                   //     dBContext.AutoIncrimentNo.Add(Auto1);
+                        returnVal = dBContext.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                //throw;
+            }
+            return returnVal;
+        }
+
+        #endregion
+
+        #region AddCustomer
+        public int AddCustomer(CustomerData CustomerModel, string Customerno)
+        {
+            int returnVal = 0;
+            List<CustomerData> Customers = new List<CustomerData>();
+            List<AutoIncrimentNoData> autos = new List<AutoIncrimentNoData>();
+            try
+            {
+                using (var dBContext = new CustomersDatabaseContext())
+                {
+                    //GetCustomerNO
+                    CustomerData Customer1;
+                    AutoIncrimentNo Auto1 = new AutoIncrimentNo();
+
                     foreach (var Cust in dBContext.Customer.ToList())
                     {
                         Customer1 = new CustomerData();
@@ -108,13 +209,43 @@ namespace Customers_Payments_Report.Repository.Class
                     Customer CustomerEntity = new Customer();
                     if (CustomerModel.CustomerNo == null)
                     {
-                        ShowCustomerNo();
+                        ShowCustomerNoByTable();
                         CustomerModel.CustomerNo = str;
                     }
 
                     CustomerEntity.CustomerNo = CustomerModel.CustomerNo;
                     CustomerEntity.CustomerName = CustomerModel.CustomerName;
+                    CustomerEntity.CreatedDate = DateTime.Now;
+                    if (CustomerModel.CreatedBy != null)
+                    {
+                        CustomerEntity.CreatedBy = CustomerModel.CreatedBy;
+                    }
+
                     //       Customerno = CustomerEntity.CustomerNo;
+
+                    int Num = Convert.ToInt32(CustomerEntity.CustomerNo.Substring(1));
+                    string Num1 = Convert.ToString(Num);
+                    foreach (var Au in dBContext.AutoIncrimentNo.ToList())
+                    {
+
+                        Auto1.LastCustomerNo = Num1;
+                        Auto1.LastInvoiceNo = Au.LastInvoiceNo;
+                        Auto1.LastPaymentNo = Au.LastPaymentNo;
+                        // autos.Add(Auto1);
+
+                    }
+                    var rows = from a1 in dBContext.AutoIncrimentNo
+                               select a1;
+                    foreach (var row in rows)
+                    {
+                        if (row != null)
+                        {
+                            dBContext.AutoIncrimentNo.Remove(row);
+                            //dbcontext.savechanges();
+                        }
+                    }
+
+
 
                     bool CustomerNoexist = Customers.Any(x => x.CustomerNo == CustomerEntity.CustomerNo);
                     if (CustomerNoexist == true)
@@ -125,6 +256,7 @@ namespace Customers_Payments_Report.Repository.Class
                     if (CustomerNoexist == false)
                     {
                         dBContext.Customer.Add(CustomerEntity);
+                        dBContext.AutoIncrimentNo.Add(Auto1);
                         returnVal = dBContext.SaveChanges();
                     }
                 }
@@ -198,6 +330,11 @@ namespace Customers_Payments_Report.Repository.Class
                     {
                         CustomerEntity.CustomerNo = EditCust.CustomerNo;
                         CustomerEntity.CustomerName = EditCust.CustomerName;
+                        CustomerEntity.ModifyDate = DateTime.Now;
+                        if (EditCust.ModifyBy != null)
+                        {
+                            CustomerEntity.ModifyBy = EditCust.ModifyBy;
+                        }
                         dBContext1.Customer.Update(CustomerEntity);
                     }
                     returnVal = dBContext1.SaveChanges();

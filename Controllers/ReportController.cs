@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Customers_Payments_Report.Models.common;
 using Customers_Payments_Report.Repository.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -25,9 +26,16 @@ namespace Customers_Payments_Report.Controllers
 
 
         [HttpGet("GetReport")]
-        public List<Models.common.ReportData> GetReport()
+        public List<ReportData> GetReport()
         {
             return _reportRepository.GetReport();
+        }
+
+
+        [HttpGet("GetReport1")]
+        public List<ReportData1> GetReport1()
+        {
+            return _reportRepository.GetReport1();
         }
 
 

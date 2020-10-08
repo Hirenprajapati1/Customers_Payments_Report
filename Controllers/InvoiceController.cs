@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Customers_Payments_Report.Controllers
 {
-//    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowMyOrigin")]
@@ -44,6 +44,13 @@ namespace Customers_Payments_Report.Controllers
             return _invoiceRepository.AddInvoice(InvoiceModel, InvoiceNo);
         }
 
+        [HttpPost("AddInvoiceNoByUser")]
+        public int AddInvoiceNoByUser([FromBody] InvoiceData InvoiceModel)
+        {
+            return _invoiceRepository.AddInvoiceNoByUser(InvoiceModel);
+        }
+
+
         [HttpGet("GetInvoiceById/{id}")]
         public InvoiceData GetInvoiceById(string id)
         {
@@ -74,6 +81,12 @@ namespace Customers_Payments_Report.Controllers
         {
             return _invoiceRepository.DeletePaymentByInvoiceNo(id);
         }
+        [HttpGet("ShowInvoiceNoByTable")]
+        public List<InvoiceData> ShowInvoiceNoByTable()
+        {
+            return _invoiceRepository.ShowInvoiceNoByTable();
+        }
+
 
 
     }

@@ -4,14 +4,98 @@ using Customers_Payments_Report.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace Customers_Payments_Report.Repository.Class
 {
     public class ReportRepository : IReportRepository
     {
-        #region GetReport
+        #region GetReport1
 
+        public List<ReportData1> GetReport1()
+        {
+            List<ReportData1> Reports = new List<ReportData1>();
+            try
+            {
+                using (var dBContext = new CustomersDatabaseContext())
+                {
+                    //GetEmployee
+                    ReportData1 Report1;
+                    foreach (var Cu in dBContext.Customer.ToList())
+                    {
+                        
+                        Report1 = new ReportData1();
+                        Report1.CustomerNo = Cu.CustomerNo;
+                        Report1.CustomerName = Cu.CustomerName;
+                        var Inv = dBContext.Invoice.FirstOrDefault(x => x.CustomerNo == Cu.CustomerNo);
+                        if (Inv != null)
+                        {
+                            Report1.TotelInvoiceAmount = dBContext.Invoice.Where(x => x.CustomerNo == Inv.CustomerNo).Sum(x =>x.InvoiceAmount);
+                            var pay = dBContext.Payment.FirstOrDefault(x => x.InvoiceNo == Inv.InvoiceNo);
+                            if (pay != null)
+                            {
+                                //Report1.TotelPaymentAmount = dBContext.Payment.Where(x => Inv.InvoiceNo == pay.InvoiceNo).Sum(x => x.PaymentAmount);
+                                Report1.TotelPaymentAmount = 0;
+                            }
+                        }
+                        Reports.Add(Report1);
+
+
+                        foreach (var pay in dBContext.Payment.ToList())
+                        {
+                            Report1 = new ReportData1();
+
+                            var inv = dBContext.Invoice.FirstOrDefault(x => x.InvoiceNo == pay.InvoiceNo);
+                            if (inv != null)
+                            {
+                                Report1 = new ReportData1();
+                                var cust = dBContext.Customer.FirstOrDefault(x => x.CustomerNo == inv.CustomerNo);
+                              //  Report1.TotelPaymentAmount=
+                            }
+                            Boolean b = false;
+
+                            foreach (var a in Reports)
+                            {
+                                //if (a.Year == Report1.Year && a.Month == Report1.Month && a.CustomerNo == Report1.CustomerNo)
+                                if (a.CustomerNo == Report1.CustomerNo)
+                                {
+                                    //   a.PaymentCollection = a.PaymentCollection + dBContext.Pyment.FirstOrDefault(x => x.InvoiceNo == Inv.InvoiceNo).PaymentAmount;
+                                    if (pay != null)
+                                    {
+                                        a.TotelPaymentAmount = pay.PaymentAmount + a.TotelPaymentAmount;
+                                    }
+                                    b = true;
+
+                                }
+                            }
+                            if (b == false)
+                            {
+                                // Report1.PaymentCollection = dBContext.Pyment.FirstOrDefault(x => x.InvoiceNo == Inv.InvoiceNo).PaymentAmount;
+                                if (pay != null)
+                                {
+                                    Report1.TotelPaymentAmount = pay.PaymentAmount;
+                                }
+                                Reports.Add(Report1);
+                            }
+
+
+                        }
+
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return Reports;
+        }
+        #endregion
+
+        #region GetReport
         public List<ReportData> GetReport()
         {
             List<ReportData> Reports = new List<ReportData>();
@@ -49,7 +133,6 @@ namespace Customers_Payments_Report.Repository.Class
                                 a.NoOfInvoices = a.NoOfInvoices + 1;
                                 b = true;
                             }
-
 
                         }
                         if (b == false)

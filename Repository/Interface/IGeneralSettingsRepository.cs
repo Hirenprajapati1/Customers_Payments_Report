@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Customers_Payments_Report.Repository.Interface
 {
-    public interface IReportRepository
+    public interface IGeneralSettingsRepository
     {
-        public List<ReportData> GetReport();
-        public List<ReportData1> GetReport1();
-
-
+        public List<GeneralSettingsData> ListGeneralSettings();
+        public int UpdateGeneralSettings(GeneralSettingsData EditGS, int id);
 
     }
 }

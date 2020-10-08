@@ -52,7 +52,7 @@ namespace Customers_Payments_Report.Repository.Class
                     AdminEntity.Name = AdminModel.username;
                     AdminEntity.Gender = AdminModel.Gender;
                     AdminEntity.Password = AdminModel.Password;
-
+                    AdminEntity.Region = AdminModel.Region;
                     bool AdminNameexist = Admins.Any(x => x.username == AdminEntity.Name);
                     if (AdminNameexist == true)
                     {
@@ -75,7 +75,7 @@ namespace Customers_Payments_Report.Repository.Class
         }
         #endregion
 
-        #region ListCustomers
+        #region GetAdmin
         public List<AdminData> GetAdmins()
         {
             List<AdminData> Admins = new List<AdminData>();
@@ -121,6 +121,10 @@ namespace Customers_Payments_Report.Repository.Class
                 {
                     Admin1 = new AdminData();
                     Admin1.username = Adm.Name;
+                    Admin1.FirstName = Adm.FirstName;
+                    Admin1.LastName = Adm.LastName;
+                    Admin1.Region = Adm.Region;
+                    Admin1.Gender = Adm.Gender;
                     Admin1.Password = Adm.Password;
                     users.Add(Admin1);
                 }

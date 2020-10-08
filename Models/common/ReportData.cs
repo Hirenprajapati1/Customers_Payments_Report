@@ -7,7 +7,6 @@ namespace Customers_Payments_Report.Models.common
 {
     public class ReportData
     {
-        public int No { get; set; }
         //public int YearInvoice { get; set; }
         //public int MonthInvoice { get; set; }
         //public int YearPay { get; set; }
@@ -22,6 +21,8 @@ namespace Customers_Payments_Report.Models.common
         public Decimal NoOfInvoices { get; set; }
         public Decimal Sales { get; set; }
         public Decimal PaymentCollection { get; set; }
-     
+        public int No { get; set; }
+
+
     }
 }
