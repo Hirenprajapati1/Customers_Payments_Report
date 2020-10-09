@@ -15,7 +15,7 @@ namespace Customers_Payments_Report.Repository.Class
         #region DashBord Data
         public List<Dashboarddata> GetDashbordData()
         {
-            List<Dashboarddata> DashBordDetails = new List<Dashboarddata>();
+            List<Dashboarddata> DashbordDetails = new List<Dashboarddata>();
             try
             {
                 using (var dBContext = new CustomersDatabaseContext())
@@ -27,7 +27,7 @@ namespace Customers_Payments_Report.Repository.Class
                     DateTime Today = DateTime.Today;
                     var Month = (Today.Month);
                     var Year = (Today.Year);
-              
+
                     {
                         //dashboard1.CustomerMonthly = 0;
                         //dashboard1.CustomerYaerly = 0;
@@ -39,14 +39,14 @@ namespace Customers_Payments_Report.Repository.Class
                         //dashboard1.TotelPaymentCollestions = 0;
                     }
                     //dashboard1.CustomerMonthly = dBContext.Customer.Where(x => x.CreatedDate.Month == Month && x.CreatedDate.Year == Year).Count(x => x.CustomerNo);
-          
+
                     foreach (var Cu in dBContext.Customer.ToList())
                     {
                         if (Cu.CreatedDate != null)
                         {
                             if (Cu.CreatedDate.Year == Year)
                             {
-                                dashboard1.CustomerYaerly += 1;
+                                dashboard1.CustomerYearly += 1;
 
                                 if (Cu.CreatedDate.Month == Month)
                                 {
@@ -83,20 +83,47 @@ namespace Customers_Payments_Report.Repository.Class
                                 dashboard1.PaymentsMonthly += 1;
                             }
                         }
-                        
+
                         dashboard1.TotelPaymentCollestions += Pay.PaymentAmount;
                     }
 
-                    dashboard1.CustomerMonthlyGroth = (dashboard1.CustomerMonthly / dashboard1.TotelCustomer) * 100;
-                    dashboard1.CustomerYearlyGroth = (dashboard1.CustomerYaerly / dashboard1.TotelCustomer) * 100;
+                    if ((dashboard1.TotelCustomer - dashboard1.CustomerMonthly) != 0)
+                    {
+                        dashboard1.CustomerMonthlyGrowth = (dashboard1.CustomerMonthly / (dashboard1.TotelCustomer - dashboard1.CustomerMonthly)) * 100;
+                    }
+                    else { dashboard1.CustomerMonthlyGrowth = 100; }
 
-                    dashboard1.SalesMonthlyGroth =Convert.ToInt32(( dashboard1.SalesMonthly / dashboard1.TotelSeles)*100);
-                    dashboard1.SalesYearlyGroth = Convert.ToInt32((dashboard1.SalesYearly / dashboard1.TotelSeles)*100);
+                    if ((dashboard1.TotelCustomer - dashboard1.CustomerYearly) != 0)
+                    {
+                        dashboard1.CustomerYearlyGrowth = (dashboard1.CustomerYearly / (dashboard1.TotelCustomer - dashboard1.CustomerYearly)) * 100;
+                    }
+                    else { dashboard1.CustomerYearlyGrowth = 100; }
 
-                    dashboard1.PaymentCollestionsMonthlyGroth =Convert.ToInt32 ((dashboard1.PaymentCollestionsMonthly / dashboard1.TotelPaymentCollestions) * 100);
-                    dashboard1.PaymentCollestionsYearlyGroth = Convert.ToInt32((dashboard1.PaymentCollestionsYearly / dashboard1.TotelPaymentCollestions) * 100);
+                    if ((dashboard1.TotelSeles - dashboard1.SalesMonthly) != 0)
+                    {
+                        dashboard1.SalesMonthlyGrowth = Convert.ToInt32((dashboard1.SalesMonthly / (dashboard1.TotelSeles - dashboard1.SalesMonthly)) * 100);
+                    }
+                    else { dashboard1.SalesMonthlyGrowth = 100; }
 
-                    DashBordDetails.Add(dashboard1);
+                    if ((dashboard1.TotelSeles - dashboard1.SalesYearly) != 0)
+                    {
+                        dashboard1.SalesYearlyGrowth = Convert.ToInt32((dashboard1.SalesYearly / (dashboard1.TotelSeles - dashboard1.SalesYearly)) * 100);
+                    }
+                    else { dashboard1.SalesYearlyGrowth = 100; }
+
+                    if ((dashboard1.TotelPaymentCollestions - dashboard1.PaymentCollestionsMonthly) != 0)
+                    {
+                        dashboard1.PaymentCollestionsMonthlyGroth = Convert.ToInt32((dashboard1.PaymentCollestionsMonthly / (dashboard1.TotelPaymentCollestions - dashboard1.PaymentCollestionsMonthly)) * 100);
+                    }
+                    else { dashboard1.PaymentCollestionsMonthlyGroth = 100; }
+
+                    if ((dashboard1.TotelPaymentCollestions - dashboard1.PaymentCollestionsYearly) != 0)
+                    {
+                        dashboard1.PaymentCollestionsYearlyGrowth = Convert.ToInt32((dashboard1.PaymentCollestionsYearly / (dashboard1.TotelPaymentCollestions - dashboard1.PaymentCollestionsYearly)) * 100);
+                    }
+                    else { dashboard1.PaymentCollestionsYearlyGrowth = 100; }
+
+                    DashbordDetails.Add(dashboard1);
                 }
             }
             catch (Exception)
@@ -104,9 +131,28 @@ namespace Customers_Payments_Report.Repository.Class
 
                 throw;
             }
-            return DashBordDetails;
+            return DashbordDetails;
         }
         #endregion
+
+        #region GetChartData
+        public List<ChartData> GetChartData()
+        {
+            List<ChartData> Charts = new List<ChartData>();
+            try
+            {
+                using (var dBContext = new CustomersDatabaseContext())
+                {
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return Charts;
+        }
 
         #region GetReport1
 
