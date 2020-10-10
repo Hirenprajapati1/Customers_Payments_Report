@@ -31,6 +31,22 @@ namespace Customers_Payments_Report.Controllers
             return _reportRepository.GetDashbordData();
         }
 
+        [HttpGet("GetChartDataSales")]
+        public List<ChartSalesData> GetChartDataSales()
+        {
+            return _reportRepository.GetChartDataSales();
+        }
+
+        [HttpGet("GetChartPaymentCollection")]
+        public List<ChartPaymentCollectionData> GetChartPaymentCollection()
+        {
+            return _reportRepository.GetChartPaymentCollection();
+        }
+
+
+
+
+
         [HttpGet("GetReport")]
         public List<ReportData> GetReport()
         {
