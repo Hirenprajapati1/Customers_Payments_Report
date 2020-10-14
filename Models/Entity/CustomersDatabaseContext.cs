@@ -36,9 +36,17 @@ namespace Customers_Payments_Report.Models.Entity
             modelBuilder.Entity<Admin>(entity =>
             {
                 entity.HasKey(e => e.Name)
-                    .HasName("PK__tmp_ms_x__737584F7C67660C1");
+                    .HasName("PK__tmp_ms_x__737584F76C95F0CB");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.ContactNo).HasMaxLength(15);
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnName("Created_date")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.Email).HasMaxLength(50);
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
@@ -52,6 +60,10 @@ namespace Customers_Payments_Report.Models.Entity
                 entity.Property(e => e.LastName)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(e => e.ModifyDate)
+                    .HasColumnName("Modify_date")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Password)
                     .IsRequired()

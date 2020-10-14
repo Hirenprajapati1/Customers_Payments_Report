@@ -53,7 +53,11 @@ namespace Customers_Payments_Report.Repository.Class
                     AdminEntity.Gender = AdminModel.Gender;
                     AdminEntity.Password = AdminModel.Password;
                     AdminEntity.Region = AdminModel.Region;
-                    bool AdminNameexist = Admins.Any(x => x.username == AdminEntity.Name);
+                    AdminEntity.CreatedDate = AdminModel.CreatedDate;
+                    AdminEntity.ContactNo = AdminModel.ContactNo;
+                    AdminEntity.Email = AdminModel.Email;
+                    AdminEntity.CreatedDate = DateTime.Now;
+                    bool AdminNameexist = Admins.Any(x => x.username.ToLower() == AdminEntity.Name.ToLower());
                     if (AdminNameexist == true)
                     {
                         returnVal = -1;
@@ -74,6 +78,50 @@ namespace Customers_Payments_Report.Repository.Class
             return returnVal;
         }
         #endregion
+
+        #region GetAdminByID
+
+        public AdminData GetAdminByID(string name)
+        {
+            AdminData AdminDatas = new AdminData();
+            try
+            {
+                using (var dBContext = new CustomersDatabaseContext())
+                {
+                    //GetEmployee
+                    var Adm = dBContext.Admin.Where(x => x.Name == name).SingleOrDefault();
+                    if (Adm != null)
+                    {
+                        AdminDatas.username = Adm.Name;
+                        AdminDatas.FirstName = Adm.FirstName;
+                        AdminDatas.LastName = Adm.LastName;
+                        AdminDatas.Region = Adm.Region;
+                        AdminDatas.Gender = Adm.Gender;
+                        AdminDatas.Email = Adm.Email;
+                        AdminDatas.ContactNo = Adm.ContactNo;
+
+                    }
+                    return AdminDatas;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+
+        }
+
+
+        #endregion
+
+
+        #region EditAdmin
+
+        #endregion
+
+
 
         #region GetAdmin
         public List<AdminData> GetAdmins()
