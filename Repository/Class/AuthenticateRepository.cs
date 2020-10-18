@@ -119,6 +119,40 @@ namespace Customers_Payments_Report.Repository.Class
 
         #region EditAdmin
 
+        public int UpdateAdmin(AdminData EditAdm)
+        {
+            List<AdminData> admins = new List<AdminData>();
+            int returnVal = 0;
+            try
+            {
+                using (var dBContext1 = new CustomersDatabaseContext())
+                {
+                    Admin adminEntity = new Admin();
+                    adminEntity = dBContext1.Admin.FirstOrDefault(x => x.Name == EditAdm.username);
+                    if (adminEntity != null)
+                    {
+                        adminEntity.Name = EditAdm.username;
+                        adminEntity.FirstName = EditAdm.FirstName;
+                        adminEntity.LastName = EditAdm.LastName;
+                        adminEntity.Email = EditAdm.Email;
+                        adminEntity.ContactNo = EditAdm.ContactNo;
+                        adminEntity.Region = EditAdm.Region;
+                        adminEntity.Gender = EditAdm.Gender;
+                        adminEntity.ModifyDate = DateTime.Now;
+                        dBContext1.Admin.Update(adminEntity);
+                    }
+                    returnVal = dBContext1.SaveChanges();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return returnVal;
+
+        }
+
         #endregion
 
 

@@ -12,6 +12,7 @@ namespace Customers_Payments_Report.Repository.Interface
         int AddAdmin(AdminData AdminModel);
         List<AdminData> GetAdmins();
         AdminData GetAdminByID(string name);
+        public int UpdateAdmin(AdminData EditAdm);
 
     }
 }

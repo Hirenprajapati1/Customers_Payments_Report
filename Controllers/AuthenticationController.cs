@@ -62,5 +62,11 @@ namespace Customers_Payments_Report.Controllers
         }
 
 
+        [HttpPost("UpdateAdmin/{id}")]
+        public int UpdateAdmin([FromBody] AdminData EditAdm)
+        {
+            return _authenticateService.UpdateAdmin(EditAdm);
+        }
+
     }
 }
