@@ -192,7 +192,7 @@ namespace Customers_Payments_Report.Repository.Class
                         Boolean flag = false;
                         foreach (var ch1 in Charts.ToList())
                         {
-                            var cd1 = ch1.SalesDate.Date;
+                            var cd1 = ch1.Dates.Date;
                             var iid = inv.InvoiceDate.Date;
                             if (cd1 ==iid)
                             {
@@ -203,7 +203,7 @@ namespace Customers_Payments_Report.Repository.Class
                         }
                         if (flag == false)
                         {
-                            chart1.SalesDate = inv.InvoiceDate;
+                            chart1.Dates = inv.InvoiceDate;
                             chart1.Sales = inv.InvoiceAmount;
                             Charts.Add(chart1);
                         }
@@ -214,7 +214,7 @@ namespace Customers_Payments_Report.Repository.Class
                         Boolean flag = false;
                         foreach (var ch1 in Charts.ToList())
                         {
-                            var cd1 = ch1.SalesDate.Date;
+                            var cd1 = ch1.Dates.Date;
                             var ppd = pay.PaymentDate.Date;
                             if (cd1 == ppd)
                             {
@@ -225,7 +225,7 @@ namespace Customers_Payments_Report.Repository.Class
                         }
                         if (flag == false)
                         {
-                            chart1.SalesDate = pay.PaymentDate;
+                            chart1.Dates = pay.PaymentDate;
                             chart1.PaymentCollection = pay.PaymentAmount;
                             Charts.Add(chart1);
                         }
@@ -239,11 +239,82 @@ namespace Customers_Payments_Report.Repository.Class
 
                 throw;
             }
-            Charts = Charts.OrderBy(e => e.SalesDate).ToList();
+            Charts = Charts.OrderBy(e => e.Dates).ToList();
 
             return Charts;
         }
         #endregion
+
+
+        #region GetChartDataSales MonthWise
+        public List<ChartSalesData> GetChartDataSalesMonthly()
+        {
+            List<ChartSalesData> Charts = new List<ChartSalesData>();
+            try
+            {
+                using (var dBContext = new CustomersDatabaseContext())
+                {
+                    ChartSalesData chart1;
+                    foreach (var inv in dBContext.Invoice.ToList())
+                    {
+                        chart1 = new ChartSalesData();
+
+                        Boolean flag = false;
+                        foreach (var ch1 in Charts.ToList())
+                        {
+                            var cd1 = ch1.Month.Month;
+                            var iid = inv.InvoiceDate.Month;
+                            if (cd1 == iid)
+                            {
+                                ch1.Sales += inv.InvoiceAmount;
+                                flag = true;
+                            }
+
+                        }
+                        if (flag == false)
+                        {
+                            chart1.Dates = inv.InvoiceDate;
+                            chart1.Sales = inv.InvoiceAmount;
+                            Charts.Add(chart1);
+                        }
+                    }
+                    foreach (var pay in dBContext.Payment.ToList())
+                    {
+                        chart1 = new ChartSalesData();
+                        Boolean flag = false;
+                        foreach (var ch1 in Charts.ToList())
+                        {
+                            var cd1 = ch1.Dates.Date;
+                            var ppd = pay.PaymentDate.Date;
+                            if (cd1 == ppd)
+                            {
+                                ch1.PaymentCollection += pay.PaymentAmount;
+                                flag = true;
+                            }
+
+                        }
+                        if (flag == false)
+                        {
+                            chart1.Dates = pay.PaymentDate;
+                            chart1.PaymentCollection = pay.PaymentAmount;
+                            Charts.Add(chart1);
+                        }
+                    }
+
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            Charts = Charts.OrderBy(e => e.Dates).ToList();
+
+            return Charts;
+        }
+        #endregion
+
 
         #region GetReport1
 

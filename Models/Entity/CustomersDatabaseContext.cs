@@ -67,11 +67,9 @@ namespace Customers_Payments_Report.Models.Entity
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(100);
 
-                entity.Property(e => e.Region)
-                    .IsRequired()
-                    .HasMaxLength(50);
+                entity.Property(e => e.Region).HasMaxLength(50);
             });
 
             modelBuilder.Entity<AutoIncrimentNo>(entity =>

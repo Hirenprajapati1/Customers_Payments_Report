@@ -10,6 +10,7 @@ using Customers_Payments_Report.Models.Entity;
 using Customers_Payments_Report.Repository.Interface;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using BCrypt.Net;
 
 namespace Customers_Payments_Report.Repository.Class
 {
@@ -36,10 +37,10 @@ namespace Customers_Payments_Report.Repository.Class
             {
                 using (var dBContext = new CustomersDatabaseContext())
                 {
+                    AdminModel.Password = BCrypt.Net.BCrypt.HashPassword(AdminModel.Password);
                     //GetCustomerNO
                     AdminData Admin1;
                     foreach (var adm in dBContext.Admin.ToList())
-
                     {
                         Admin1 = new AdminData();
                         Admin1.username = adm.Name;
@@ -52,8 +53,8 @@ namespace Customers_Payments_Report.Repository.Class
                     AdminEntity.Name = AdminModel.username;
                     AdminEntity.Gender = AdminModel.Gender;
                     AdminEntity.Password = AdminModel.Password;
-                    AdminEntity.Region = AdminModel.Region;
-                    AdminEntity.CreatedDate = AdminModel.CreatedDate;
+                    //AdminEntity.Region = AdminModel.Region;
+                    AdminEntity.CreatedDate = DateTime.Now;
                     AdminEntity.ContactNo = AdminModel.ContactNo;
                     AdminEntity.Email = AdminModel.Email;
                     AdminEntity.CreatedDate = DateTime.Now;
@@ -195,7 +196,7 @@ namespace Customers_Payments_Report.Repository.Class
         public AdminData Authenticate(AdminData Model)
         {
             List<AdminData> users = new List<AdminData>();
-    
+
             using (var dBContext = new CustomersDatabaseContext())
             {
                 AdminData Admin1;
@@ -205,16 +206,20 @@ namespace Customers_Payments_Report.Repository.Class
                     Admin1.username = Adm.Name;
                     Admin1.FirstName = Adm.FirstName;
                     Admin1.LastName = Adm.LastName;
-                    Admin1.Region = Adm.Region;
+                    ///            Admin1.Region = Adm.Region;
                     Admin1.Gender = Adm.Gender;
                     Admin1.Password = Adm.Password;
                     users.Add(Admin1);
                 }
             }
+            bool IsvalidPassword=false;
+            var user = users.SingleOrDefault(x => x.username == Model.username);
+            if (user != null)
+            {
+                IsvalidPassword = BCrypt.Net.BCrypt.Verify(Model.Password, user.Password);
+            }
 
-            var user = users.SingleOrDefault(x => x.username == Model.username && x.Password == Model.Password);
-
-            if (user == null)
+            if (user == null || IsvalidPassword == false)
             {
                 return null;
             }
@@ -225,7 +230,7 @@ namespace Customers_Payments_Report.Repository.Class
             {
                 Subject = new System.Security.Claims.ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.UserId.ToString()),
+                    new Claim(ClaimTypes.Name, user.username.ToString()),
                     new Claim(ClaimTypes.Role, "Admin"),
                     //new Claim(ClaimTypes.Version, "V3.1")
                 }),

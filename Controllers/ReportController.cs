@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Customers_Payments_Report.Controllers
 {
-   // [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowMyOrigin")]
