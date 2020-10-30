@@ -55,7 +55,7 @@ namespace Customers_Payments_Report.Repository.Class
             return Payments;
         }
         #endregion
-        string str,str1;
+        string str, str1;
         #region ShowPaymentNo
         public List<PaymentData> ShowPaymentNo()
         {
@@ -92,59 +92,12 @@ namespace Customers_Payments_Report.Repository.Class
                 }
 
                 PaymentData Payment2;
-                    Payment2 = new PaymentData();
-                    Payment2.PaymentNo = str;
-                    Invoices1.Add(Payment2);
+                Payment2 = new PaymentData();
+                Payment2.PaymentNo = str;
+                Invoices1.Add(Payment2);
                 return Invoices1;
 
             }
-        }
-        #endregion
-
-        #region ShowPaymentNoByTable
-        public List<PaymentData> ShowPaymentNoByTable()
-        {
-            List<PaymentData> Payments = new List<PaymentData>();
-            List<PaymentData> Payments1 = new List<PaymentData>();
-            //List<AutoIncrimentNoData> Autos = new List<AutoIncrimentNoData>();
-            using (var dBContext = new CustomersDatabaseContext())
-            {
-                PaymentData Pay1;
-                foreach (var pay in dBContext.Payment.ToList())
-                {
-                    Pay1 = new PaymentData();
-                    Pay1.PaymentNo = pay.PaymentNo;
-                    Payments.Add(Pay1);
-                }
-
-                PaymentData Payment2;
-                foreach (var Au in dBContext.AutoIncrimentNo.ToList())
-                {
-                    Payment2 = new PaymentData();
-                    int num;
-                    num = Convert.ToInt32(Au.LastPaymentNo);
-                    num += 1;
-
-                    str = "P" + num.ToString("D5");
-                    X:
-                    bool No = Payments.Any(x => x.PaymentNo == str);
-                    if (No == true)
-                    {
-                        //   str = str.Substring(1);
-                        num += 1;
-                        str = "P" + num.ToString("D5");
-                        goto X;
-
-                    }
-                    str1 = str.Substring(1);
-                    Payment2.PaymentNo = str1;
-                    Payments1.Add(Payment2);
-                }
-
-            }
-
-            return Payments1;
-
         }
         #endregion
 
@@ -171,7 +124,7 @@ namespace Customers_Payments_Report.Repository.Class
                     PaymentEntity = new Payment();
                     if (PaymentModel.PaymentNo == null)
                     {
-                     //   ShowPaymentNo();
+                        //   ShowPaymentNo();
                         ShowPaymentNoByTable();
                         PaymentModel.PaymentNo = str;
                     }
@@ -194,32 +147,34 @@ namespace Customers_Payments_Report.Repository.Class
 
                     // PaymentNo = PaymentEntity.PaymentNo;
 
-
-
-                    int Num = Convert.ToInt32(PaymentEntity.PaymentNo.Substring(1));
-                    string Num1 = Convert.ToString(Num);
-                    AutoIncrimentNo Auto1 = new AutoIncrimentNo();
-
-                    foreach (var Au in dBContext.AutoIncrimentNo.ToList())
+                    if (dBContext.GeneralSettings.FirstOrDefault(x => x.Id == "1").AutoPaymentNo == true)
                     {
+                        int Num = Convert.ToInt32(PaymentEntity.PaymentNo.Substring(1));
+                        string Num1 = Convert.ToString(Num);
+                        AutoIncrimentNo Auto1 = new AutoIncrimentNo();
 
-                        Auto1.LastCustomerNo = Au.LastCustomerNo;
-                        Auto1.LastInvoiceNo = Au.LastInvoiceNo;
-                        Auto1.LastPaymentNo = Num1;
-                        // autos.Add(Auto1);
-
-                    }
-                    var rows = from a1 in dBContext.AutoIncrimentNo
-                               select a1;
-                    foreach (var row in rows)
-                    {
-                        if (row != null)
+                        foreach (var Au in dBContext.AutoIncrimentNo.ToList())
                         {
-                            dBContext.AutoIncrimentNo.Remove(row);
-                            //dbcontext.savechanges();
-                        }
-                    }
 
+                            Auto1.LastCustomerNo = Au.LastCustomerNo;
+                            Auto1.LastInvoiceNo = Au.LastInvoiceNo;
+                            Auto1.LastPaymentNo = Num1;
+                            // autos.Add(Auto1);
+
+                        }
+                        var rows = from a1 in dBContext.AutoIncrimentNo
+                                   select a1;
+                        foreach (var row in rows)
+                        {
+                            if (row != null)
+                            {
+                                dBContext.AutoIncrimentNo.Remove(row);
+                                //dbcontext.savechanges();
+                            }
+                        }
+                        dBContext.AutoIncrimentNo.Add(Auto1);
+
+                    }
 
                     bool PaymentNoxist = invoices.Any(x => x.PaymentNo == PaymentEntity.PaymentNo);
                     if (PaymentNoxist == true)
@@ -229,7 +184,6 @@ namespace Customers_Payments_Report.Repository.Class
                     else
                     {
                         dBContext.Payment.Add(PaymentEntity);
-                        dBContext.AutoIncrimentNo.Add(Auto1);
                         returnVal = dBContext.SaveChanges();
                     }
                 }
@@ -439,10 +393,11 @@ namespace Customers_Payments_Report.Repository.Class
                     InvoiceData Invoice1;
                     foreach (var inv in dBContext.Invoice.ToList())
                     {
-                        if(inv.CustomerNo == no) { 
-                        Invoice1 = new InvoiceData();
-                        Invoice1.InvoiceNo = inv.InvoiceNo;
-                        Invoices.Add(Invoice1);
+                        if (inv.CustomerNo == no)
+                        {
+                            Invoice1 = new InvoiceData();
+                            Invoice1.InvoiceNo = inv.InvoiceNo;
+                            Invoices.Add(Invoice1);
                         }
                     }
                 }
@@ -480,9 +435,9 @@ namespace Customers_Payments_Report.Repository.Class
                             Invoices.Add(Invoice1);
                         }
                     }
-                    foreach(var pay in dBContext.Payment.ToList())
+                    foreach (var pay in dBContext.Payment.ToList())
                     {
-                        foreach(var a in Invoices)
+                        foreach (var a in Invoices)
                         {
                             if (pay.InvoiceNo == no)
                             {
@@ -518,7 +473,7 @@ namespace Customers_Payments_Report.Repository.Class
                     CustomerData C1;
                     foreach (var inv in dBContext.Invoice.ToList())
                     {
-                        if(inv.InvoiceNo == no)
+                        if (inv.InvoiceNo == no)
                         {
                             C1 = new CustomerData();
                             C1.CustomerNo = inv.CustomerNo;
@@ -534,5 +489,53 @@ namespace Customers_Payments_Report.Repository.Class
             return Customers;
         }
         #endregion
+
+        #region ShowPaymentNoByTable
+        public List<PaymentData> ShowPaymentNoByTable()
+        {
+            List<PaymentData> Payments = new List<PaymentData>();
+            List<PaymentData> Payments1 = new List<PaymentData>();
+            //List<AutoIncrimentNoData> Autos = new List<AutoIncrimentNoData>();
+            using (var dBContext = new CustomersDatabaseContext())
+            {
+                PaymentData Pay1;
+                foreach (var pay in dBContext.Payment.ToList())
+                {
+                    Pay1 = new PaymentData();
+                    Pay1.PaymentNo = pay.PaymentNo;
+                    Payments.Add(Pay1);
+                }
+
+                PaymentData Payment2;
+                foreach (var Au in dBContext.AutoIncrimentNo.ToList())
+                {
+                    Payment2 = new PaymentData();
+                    int num;
+                    num = Convert.ToInt32(Au.LastPaymentNo);
+                    num += 1;
+
+                    str = "P" + num.ToString("D5");
+                    X:
+                    bool No = Payments.Any(x => x.PaymentNo == str);
+                    if (No == true)
+                    {
+                        //   str = str.Substring(1);
+                        num += 1;
+                        str = "P" + num.ToString("D5");
+                        goto X;
+
+                    }
+                    str1 = str.Substring(1);
+                    Payment2.PaymentNo = str1;
+                    Payments1.Add(Payment2);
+                }
+
+            }
+
+            return Payments1;
+
+        }
+        #endregion
+
     }
 }

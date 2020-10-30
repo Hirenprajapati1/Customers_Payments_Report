@@ -136,52 +136,52 @@ namespace Customers_Payments_Report.Repository.Class
         #endregion
 
         #region AddCustomerNoByUser
-        public int AddCustomerNoByUser(CustomerData CustomerModel)
-        {
-            int returnVal = 0;
-            List<CustomerData> Customers = new List<CustomerData>();
-            try
-            {
-                using (var dBContext = new CustomersDatabaseContext())
-                {
-                    //GetCustomerNO
-                    CustomerData Customer1;
+        //public int AddCustomerNoByUser(CustomerData CustomerModel)
+        //{
+        //    int returnVal = 0;
+        //    List<CustomerData> Customers = new List<CustomerData>();
+        //    try
+        //    {
+        //        using (var dBContext = new CustomersDatabaseContext())
+        //        {
+        //            //GetCustomerNO
+        //            CustomerData Customer1;
                     
-                    foreach (var Cust in dBContext.Customer.ToList())
-                    {
-                        Customer1 = new CustomerData();
-                        Customer1.CustomerNo = Cust.CustomerNo;
-                        Customers.Add(Customer1);
-                    }
-                    //AddCustomer
-                    Customer CustomerEntity = new Customer();
-                    CustomerEntity.CustomerNo = CustomerModel.CustomerNo;
-                    CustomerEntity.CustomerName = CustomerModel.CustomerName;
-                    CustomerEntity.CreatedDate = DateTime.Now;
-                    if(CustomerModel.CreatedBy != null) { 
-                    CustomerEntity.CreatedBy = CustomerModel.CreatedBy;
-                    }
-                    bool CustomerNoexist = Customers.Any(x => x.CustomerNo == CustomerEntity.CustomerNo);
-                    if (CustomerNoexist == true)
-                    {
-                        returnVal = -1;
-                    }
+        //            foreach (var Cust in dBContext.Customer.ToList())
+        //            {
+        //                Customer1 = new CustomerData();
+        //                Customer1.CustomerNo = Cust.CustomerNo;
+        //                Customers.Add(Customer1);
+        //            }
+        //            //AddCustomer
+        //            Customer CustomerEntity = new Customer();
+        //            CustomerEntity.CustomerNo = CustomerModel.CustomerNo;
+        //            CustomerEntity.CustomerName = CustomerModel.CustomerName;
+        //            CustomerEntity.CreatedDate = DateTime.Now;
+        //            if(CustomerModel.CreatedBy != null) { 
+        //            CustomerEntity.CreatedBy = CustomerModel.CreatedBy;
+        //            }
+        //            bool CustomerNoexist = Customers.Any(x => x.CustomerNo == CustomerEntity.CustomerNo);
+        //            if (CustomerNoexist == true)
+        //            {
+        //                returnVal = -1;
+        //            }
 
-                    if (CustomerNoexist == false)
-                    {
-                        dBContext.Customer.Add(CustomerEntity);
-                   //     dBContext.AutoIncrimentNo.Add(Auto1);
-                        returnVal = dBContext.SaveChanges();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                //throw;
-            }
-            return returnVal;
-        }
+        //            if (CustomerNoexist == false)
+        //            {
+        //                dBContext.Customer.Add(CustomerEntity);
+        //           //     dBContext.AutoIncrimentNo.Add(Auto1);
+        //                returnVal = dBContext.SaveChanges();
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //        //throw;
+        //    }
+        //    return returnVal;
+        //}
 
         #endregion
 
@@ -198,6 +198,7 @@ namespace Customers_Payments_Report.Repository.Class
                     //GetCustomerNO
                     CustomerData Customer1;
                     AutoIncrimentNo Auto1 = new AutoIncrimentNo();
+                    Customer CustomerEntity = new Customer();
 
                     foreach (var Cust in dBContext.Customer.ToList())
                     {
@@ -205,13 +206,30 @@ namespace Customers_Payments_Report.Repository.Class
                         Customer1.CustomerNo = Cust.CustomerNo;
                         Customers.Add(Customer1);
                     }
+                    //new code
+                    //            if(dBContext.GeneralSettings.FirstOrDefault(x =>x.Id == "1" ).AutoCustomerNo == false)
+                    //            {
+                    //                //AddCustomer
+                    ////                Customer CustomerEntity = new Customer();
+                    //                CustomerEntity.CustomerNo = CustomerModel.CustomerNo;
+                    //                CustomerEntity.CustomerName = CustomerModel.CustomerName;
+                    //                CustomerEntity.CreatedDate = DateTime.Now;
+                    //                if (CustomerModel.CreatedBy != null)
+                    //                {
+                    //                    CustomerEntity.CreatedBy = CustomerModel.CreatedBy;
+                    //                }
+
+                    //            }
+
+                    //
+
+                    //else { 
                     //AddCustomer
-                    Customer CustomerEntity = new Customer();
-                    if (CustomerModel.CustomerNo == null)
-                    {
-                        ShowCustomerNoByTable();
-                        CustomerModel.CustomerNo = str;
-                    }
+                    //if (CustomerModel.CustomerNo == null)
+                    //{
+                    //    ShowCustomerNoByTable();
+                    //    CustomerModel.CustomerNo = str;
+                    //}
 
                     CustomerEntity.CustomerNo = CustomerModel.CustomerNo;
                     CustomerEntity.CustomerName = CustomerModel.CustomerName;
@@ -222,8 +240,10 @@ namespace Customers_Payments_Report.Repository.Class
                     }
 
                     //       Customerno = CustomerEntity.CustomerNo;
+                    if (dBContext.GeneralSettings.FirstOrDefault(x => x.Id == "1").AutoCustomerNo == true)
+                    { 
 
-                    int Num = Convert.ToInt32(CustomerEntity.CustomerNo.Substring(1));
+                        int Num = Convert.ToInt32(CustomerEntity.CustomerNo.Substring(1));
                     string Num1 = Convert.ToString(Num);
                     foreach (var Au in dBContext.AutoIncrimentNo.ToList())
                     {
@@ -244,7 +264,10 @@ namespace Customers_Payments_Report.Repository.Class
                             //dbcontext.savechanges();
                         }
                     }
+                    dBContext.AutoIncrimentNo.Add(Auto1);
 
+                }
+                    //}
 
 
                     bool CustomerNoexist = Customers.Any(x => x.CustomerNo == CustomerEntity.CustomerNo);
@@ -256,7 +279,6 @@ namespace Customers_Payments_Report.Repository.Class
                     if (CustomerNoexist == false)
                     {
                         dBContext.Customer.Add(CustomerEntity);
-                        dBContext.AutoIncrimentNo.Add(Auto1);
                         returnVal = dBContext.SaveChanges();
                     }
                 }

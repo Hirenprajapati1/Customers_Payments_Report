@@ -46,11 +46,11 @@ namespace Customers_Payments_Report.Controllers
         }
 
 
-        [HttpPost("AddCustomerNoByUser")]
-        public int AddCustomerNoByUser([FromBody] CustomerData cust)
-        {
-            return _customerRepository.AddCustomerNoByUser(cust);
-        }
+        //[HttpPost("AddCustomerNoByUser")]
+        //public int AddCustomerNoByUser([FromBody] CustomerData cust)
+        //{
+        //    return _customerRepository.AddCustomerNoByUser(cust);
+        //}
 
         [HttpPost("AddCustomer")]
         public int AddCustomer([FromBody] CustomerData cust, string CustomerNo)

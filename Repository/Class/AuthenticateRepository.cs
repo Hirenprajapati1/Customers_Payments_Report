@@ -128,21 +128,33 @@ namespace Customers_Payments_Report.Repository.Class
             {
                 using (var dBContext1 = new CustomersDatabaseContext())
                 {
+                    bool IsvalidPassword = false;
                     Admin adminEntity = new Admin();
-                    adminEntity = dBContext1.Admin.FirstOrDefault(x => x.Name == EditAdm.username);
+                    adminEntity = dBContext1.Admin.FirstOrDefault(x => x.Name.Trim().ToLower() == EditAdm.username.Trim().ToLower());
+                  
                     if (adminEntity != null)
                     {
+                        IsvalidPassword = BCrypt.Net.BCrypt.Verify(EditAdm.Password, adminEntity.Password);
+                        if (IsvalidPassword) { 
                         adminEntity.Name = EditAdm.username;
                         adminEntity.FirstName = EditAdm.FirstName;
                         adminEntity.LastName = EditAdm.LastName;
                         adminEntity.Email = EditAdm.Email;
                         adminEntity.ContactNo = EditAdm.ContactNo;
-                        adminEntity.Region = EditAdm.Region;
+                     //   adminEntity.Region = EditAdm.Region;
                         adminEntity.Gender = EditAdm.Gender;
                         adminEntity.ModifyDate = DateTime.Now;
                         dBContext1.Admin.Update(adminEntity);
+                        
+                         returnVal = dBContext1.SaveChanges();
+
+                        }
+                        else
+                        {
+                            returnVal = -1;
+                        }
+
                     }
-                    returnVal = dBContext1.SaveChanges();
                 }
 
             }
@@ -213,7 +225,7 @@ namespace Customers_Payments_Report.Repository.Class
                 }
             }
             bool IsvalidPassword=false;
-            var user = users.SingleOrDefault(x => x.username == Model.username);
+            var user = users.SingleOrDefault(x => x.username.Trim().ToLower() == Model.username.Trim().ToLower());
             if (user != null)
             {
                 IsvalidPassword = BCrypt.Net.BCrypt.Verify(Model.Password, user.Password);

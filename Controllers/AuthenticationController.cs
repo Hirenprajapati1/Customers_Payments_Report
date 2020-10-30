@@ -33,7 +33,6 @@ namespace Customers_Payments_Report.Controllers
             if (user == null)
             {
                 return BadRequest(new { message = "Username or Password is incorrect" });
-
             }
             else
             {
@@ -62,7 +61,7 @@ namespace Customers_Payments_Report.Controllers
         }
 
 
-        [HttpPost("UpdateAdmin/{id}")]
+        [HttpPost("UpdateAdmin")]
         public int UpdateAdmin([FromBody] AdminData EditAdm)
         {
             return _authenticateService.UpdateAdmin(EditAdm);

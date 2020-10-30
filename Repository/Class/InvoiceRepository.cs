@@ -12,7 +12,7 @@ namespace Customers_Payments_Report.Repository.Class
 {
     public class InvoiceRepository : IInvoiceRepository
     {
-        string str,str1;
+        string str, str1;
         #region ListInvoice
         public List<InvoiceData> GetInvoices()
         {
@@ -195,30 +195,33 @@ namespace Customers_Payments_Report.Repository.Class
 
                     //  InvoiceNo = InvoiceEntity.InvoiceNo;
 
-
-                    int Num = Convert.ToInt32(InvoiceEntity.InvoiceNo.Substring(1));
-                    string Num1 = Convert.ToString(Num);
-                    foreach (var Au in dBContext.AutoIncrimentNo.ToList())
+                    if (dBContext.GeneralSettings.FirstOrDefault(x => x.Id == "1").AutoInvoiceNo == true)
                     {
-
-                        Auto1.LastCustomerNo = Au.LastCustomerNo;
-                        Auto1.LastInvoiceNo = Num1;
-                        Auto1.LastPaymentNo = Au.LastPaymentNo;
-                        // autos.Add(Auto1);
-
-                    }
-                    var rows = from a1 in dBContext.AutoIncrimentNo
-                               select a1;
-                    foreach (var row in rows)
-                    {
-                        if (row != null)
+                        int Num = Convert.ToInt32(InvoiceEntity.InvoiceNo.Substring(1));
+                        string Num1 = Convert.ToString(Num);
+                        foreach (var Au in dBContext.AutoIncrimentNo.ToList())
                         {
-                            dBContext.AutoIncrimentNo.Remove(row);
-                            //dbcontext.savechanges();
+
+                            Auto1.LastCustomerNo = Au.LastCustomerNo;
+                            Auto1.LastInvoiceNo = Num1;
+                            Auto1.LastPaymentNo = Au.LastPaymentNo;
+                            // autos.Add(Auto1);
+
                         }
+                        var rows = from a1 in dBContext.AutoIncrimentNo
+                                   select a1;
+                        foreach (var row in rows)
+                        {
+                            if (row != null)
+                            {
+                                dBContext.AutoIncrimentNo.Remove(row);
+                                //dbcontext.savechanges();
+                            }
+                        }
+                        dBContext.AutoIncrimentNo.Add(Auto1);
+
+
                     }
-
-
 
                     bool InvoiceNoexist = invoices.Any(x => x.InvoiceNo == InvoiceEntity.InvoiceNo);
                     if (InvoiceNoexist == true)
@@ -228,7 +231,6 @@ namespace Customers_Payments_Report.Repository.Class
                     else
                     {
                         dBContext.Invoice.Add(InvoiceEntity);
-                        dBContext.AutoIncrimentNo.Add(Auto1);
 
                         returnVal = dBContext.SaveChanges();
                     }
@@ -480,7 +482,7 @@ namespace Customers_Payments_Report.Repository.Class
 
         #region ListPaymentDelete
 
-        public List<PaymentData> ListPaymentDelete(string  Inv_NO)
+        public List<PaymentData> ListPaymentDelete(string Inv_NO)
         {
             List<PaymentData> PaymentDelete = new List<PaymentData>();
             List<PaymentData> Payments = new List<PaymentData>();
