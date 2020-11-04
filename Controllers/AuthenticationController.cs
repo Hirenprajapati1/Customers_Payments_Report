@@ -41,12 +41,7 @@ namespace Customers_Payments_Report.Controllers
         }
         #endregion
 
-        [HttpGet("GetAdminByID/{name}")]
-        public AdminData GetAdminByID(string name)
-        {
-            return _authenticateService.GetAdminByID(name);
-
-        }
+      
 
         [HttpGet("GetAdmins")]
         public List<AdminData> GetAdmins()
@@ -61,11 +56,7 @@ namespace Customers_Payments_Report.Controllers
         }
 
 
-        [HttpPost("UpdateAdmin")]
-        public int UpdateAdmin([FromBody] AdminData EditAdm)
-        {
-            return _authenticateService.UpdateAdmin(EditAdm);
-        }
+   
 
     }
 }

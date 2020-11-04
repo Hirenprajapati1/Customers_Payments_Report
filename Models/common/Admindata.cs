@@ -15,6 +15,8 @@ namespace Customers_Payments_Report.Models.common
         public string Email { get; set; }
         public string ContactNo { get; set; }
         public string Password { get; set; }
+        public string NewPassword { get; set; }
+
         public DateTime? CreatedDate { get; set; }
         public DateTime? ModifyDate { get; set; }
         public int UserId { get; set; }

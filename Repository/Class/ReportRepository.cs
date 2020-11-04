@@ -245,7 +245,6 @@ namespace Customers_Payments_Report.Repository.Class
         }
         #endregion
 
-
         #region GetChartDataSales MonthWise
         public List<ChartSalesData> GetChartDataSalesMonthly()
         {
@@ -262,9 +261,9 @@ namespace Customers_Payments_Report.Repository.Class
                         Boolean flag = false;
                         foreach (var ch1 in Charts.ToList())
                         {
-                            var cd1 = ch1.Month.Month;
-                            var iid = inv.InvoiceDate.Month;
-                            if (cd1 == iid)
+                            //var cd1 = ch1.Dates.Month;
+                            //var iid = inv.InvoiceDate.Month;
+                            if (ch1.Dates.Month == inv.InvoiceDate.Month && ch1.Dates.Year == inv.InvoiceDate.Year)
                             {
                                 ch1.Sales += inv.InvoiceAmount;
                                 flag = true;
@@ -273,7 +272,7 @@ namespace Customers_Payments_Report.Repository.Class
                         }
                         if (flag == false)
                         {
-                            chart1.Dates = inv.InvoiceDate;
+                            chart1.Dates = new DateTime(inv.InvoiceDate.Year, inv.InvoiceDate.Month , 01);
                             chart1.Sales = inv.InvoiceAmount;
                             Charts.Add(chart1);
                         }
@@ -284,9 +283,9 @@ namespace Customers_Payments_Report.Repository.Class
                         Boolean flag = false;
                         foreach (var ch1 in Charts.ToList())
                         {
-                            var cd1 = ch1.Dates.Date;
-                            var ppd = pay.PaymentDate.Date;
-                            if (cd1 == ppd)
+                            //var cd1 = ch1.Dates.Date;
+                            //var ppd = pay.PaymentDate.Date;
+                            if (ch1.Dates.Month == pay.PaymentDate.Month && ch1.Dates.Year == pay.PaymentDate.Year)
                             {
                                 ch1.PaymentCollection += pay.PaymentAmount;
                                 flag = true;
@@ -295,7 +294,7 @@ namespace Customers_Payments_Report.Repository.Class
                         }
                         if (flag == false)
                         {
-                            chart1.Dates = pay.PaymentDate;
+                            chart1.Dates =new DateTime( pay.PaymentDate.Year,pay.PaymentDate.Month,01);
                             chart1.PaymentCollection = pay.PaymentAmount;
                             Charts.Add(chart1);
                         }
@@ -314,7 +313,6 @@ namespace Customers_Payments_Report.Repository.Class
             return Charts;
         }
         #endregion
-
 
         #region GetReport1
 
@@ -506,6 +504,139 @@ namespace Customers_Payments_Report.Repository.Class
             }
             Reports = Reports.OrderBy(e => e.DateOfMonth).ThenBy(e => e.CustomerName).ToList();
             return Reports;
+        }
+
+        #endregion
+
+        #region GetAdminByID
+
+        public AdminData GetAdminByID(string name)
+        {
+            AdminData AdminDatas = new AdminData();
+            try
+            {
+                using (var dBContext = new CustomersDatabaseContext())
+                {
+                    //GetEmployee
+                    var Adm = dBContext.Admin.Where(x => x.Name == name).SingleOrDefault();
+                    if (Adm != null)
+                    {
+                        AdminDatas.username = Adm.Name;
+                        AdminDatas.FirstName = Adm.FirstName;
+                        AdminDatas.LastName = Adm.LastName;
+                        AdminDatas.Region = Adm.Region;
+                        AdminDatas.Gender = Adm.Gender;
+                        AdminDatas.Email = Adm.Email;
+                        AdminDatas.ContactNo = Adm.ContactNo;
+
+                    }
+                    return AdminDatas;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+
+        }
+
+
+        #endregion
+
+        #region EditAdmin
+
+        public int UpdateAdmin(AdminData EditAdm)
+        {
+            List<AdminData> admins = new List<AdminData>();
+            int returnVal = 0;
+            try
+            {
+                using (var dBContext1 = new CustomersDatabaseContext())
+                {
+                    bool IsvalidPassword = false;
+                    Admin adminEntity = new Admin();
+                    adminEntity = dBContext1.Admin.FirstOrDefault(x => x.Name.Trim().ToLower() == EditAdm.username.Trim().ToLower());
+
+                    if (adminEntity != null)
+                    {
+                        IsvalidPassword = BCrypt.Net.BCrypt.Verify(EditAdm.Password, adminEntity.Password);
+                        if (IsvalidPassword)
+                        {
+                            adminEntity.Name = EditAdm.username;
+                            adminEntity.FirstName = EditAdm.FirstName;
+                            adminEntity.LastName = EditAdm.LastName;
+                            adminEntity.Email = EditAdm.Email;
+                            adminEntity.ContactNo = EditAdm.ContactNo;
+                            //   adminEntity.Region = EditAdm.Region;
+                            adminEntity.Gender = EditAdm.Gender;
+                            adminEntity.ModifyDate = DateTime.Now;
+                            dBContext1.Admin.Update(adminEntity);
+
+                            returnVal = dBContext1.SaveChanges();
+
+                        }
+                        else
+                        {
+                            returnVal = -1;
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return returnVal;
+
+        }
+
+        #endregion
+
+        #region ChangePasswordAdmin
+
+        public int ChangePasswordAdmin(AdminData EditAdm)
+        {
+            List<AdminData> admins = new List<AdminData>();
+            int returnVal = 0;
+            try
+            {
+                using (var dBContext1 = new CustomersDatabaseContext())
+                {
+                    bool IsvalidPassword = false;
+                    Admin adminEntity = new Admin();
+                    adminEntity = dBContext1.Admin.FirstOrDefault(x => x.Name.Trim().ToLower() == EditAdm.username.Trim().ToLower());
+
+                    if (adminEntity != null)
+                    {
+                        IsvalidPassword = BCrypt.Net.BCrypt.Verify(EditAdm.Password, adminEntity.Password);
+                        if (IsvalidPassword)
+                        {
+                            adminEntity.Region = EditAdm.NewPassword;
+                            adminEntity.ModifyDate = DateTime.Now;
+                            dBContext1.Admin.Update(adminEntity);
+
+                            returnVal = dBContext1.SaveChanges();
+
+                        }
+                        else
+                        {
+                            returnVal = -1;
+                        }
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return returnVal;
+
         }
 
         #endregion

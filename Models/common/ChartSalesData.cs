@@ -9,7 +9,7 @@ namespace Customers_Payments_Report.Models.common
     public class ChartSalesData
     {
         public DateTime Dates { get; set; }
-        public DateTime Month { get; set; }
+        //public DateTime Month { get; set; }
 
         //public int Month { get; set; }
         //public int Year { get; set; }

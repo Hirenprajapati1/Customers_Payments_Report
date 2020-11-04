@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Customers_Payments_Report.Controllers
 {
-    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+//    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowMyOrigin")]
@@ -37,6 +37,12 @@ namespace Customers_Payments_Report.Controllers
             return _reportRepository.GetChartDataSales();
         }
 
+        [HttpGet("GetChartDataSalesMonthly")]
+        public List<ChartSalesData> GetChartDataSalesMonthly()
+        {
+            return _reportRepository.GetChartDataSalesMonthly();
+        }
+
         [HttpGet("GetChartPaymentCollection")]
         public List<ChartPaymentCollectionData> GetChartPaymentCollection()
         {
@@ -59,6 +65,21 @@ namespace Customers_Payments_Report.Controllers
         {
             return _reportRepository.GetReport1();
         }
+
+
+
+        [HttpGet("GetAdminByID/{name}")]
+        public AdminData GetAdminByID(string name)
+        {
+            return _reportRepository.GetAdminByID(name);
+
+        }
+        [HttpPost("UpdateAdmin")]
+        public int UpdateAdmin([FromBody] AdminData EditAdm)
+        {
+            return _reportRepository.UpdateAdmin(EditAdm);
+        }
+
 
 
     }
