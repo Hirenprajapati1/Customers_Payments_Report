@@ -1,0 +1,9 @@
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\BusinessEngine\Customers_Payments_Report.BusinessLogic\bin\Debug\netcoreapp3.1\Customers_Payments_Report.BusinessLogic.deps.json
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\BusinessEngine\Customers_Payments_Report.BusinessLogic\bin\Debug\netcoreapp3.1\Customers_Payments_Report.BusinessLogic.dll
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\BusinessEngine\Customers_Payments_Report.BusinessLogic\bin\Debug\netcoreapp3.1\Customers_Payments_Report.BusinessLogic.pdb
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\BusinessEngine\Customers_Payments_Report.BusinessLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.BusinessLogic.csprojAssemblyReference.cache
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\BusinessEngine\Customers_Payments_Report.BusinessLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.BusinessLogic.AssemblyInfoInputs.cache
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\BusinessEngine\Customers_Payments_Report.BusinessLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.BusinessLogic.AssemblyInfo.cs
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\BusinessEngine\Customers_Payments_Report.BusinessLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.BusinessLogic.csproj.CoreCompileInputs.cache
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\BusinessEngine\Customers_Payments_Report.BusinessLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.BusinessLogic.dll
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\BusinessEngine\Customers_Payments_Report.BusinessLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.BusinessLogic.pdb

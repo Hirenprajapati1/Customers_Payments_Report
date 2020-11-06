@@ -1,0 +1,9 @@
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\Common_Layer\Customers_Payments_Report.ModelData\bin\Debug\netcoreapp3.1\Customers_Payments_Report.ModelData.deps.json
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\Common_Layer\Customers_Payments_Report.ModelData\bin\Debug\netcoreapp3.1\Customers_Payments_Report.ModelData.dll
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\Common_Layer\Customers_Payments_Report.ModelData\bin\Debug\netcoreapp3.1\Customers_Payments_Report.ModelData.pdb
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\Common_Layer\Customers_Payments_Report.ModelData\obj\Debug\netcoreapp3.1\Customers_Payments_Report.ModelData.csprojAssemblyReference.cache
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\Common_Layer\Customers_Payments_Report.ModelData\obj\Debug\netcoreapp3.1\Customers_Payments_Report.ModelData.AssemblyInfoInputs.cache
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\Common_Layer\Customers_Payments_Report.ModelData\obj\Debug\netcoreapp3.1\Customers_Payments_Report.ModelData.AssemblyInfo.cs
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\Common_Layer\Customers_Payments_Report.ModelData\obj\Debug\netcoreapp3.1\Customers_Payments_Report.ModelData.csproj.CoreCompileInputs.cache
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\Common_Layer\Customers_Payments_Report.ModelData\obj\Debug\netcoreapp3.1\Customers_Payments_Report.ModelData.dll
+C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\Common_Layer\Customers_Payments_Report.ModelData\obj\Debug\netcoreapp3.1\Customers_Payments_Report.ModelData.pdb

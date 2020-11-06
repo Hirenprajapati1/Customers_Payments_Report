@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Customers_Payments_Report.ModelData.Models.common
+{
+    public class InvoiceData
+    {
+    //    public int Invoiceid { get; set; }
+        public string InvoiceNo { get; set; }
+        public string CustomerNo { get; set; }
+        public string CustomerName { get; set; }
+
+        public DateTime InvoiceDate { get; set; }
+        //public int InvoiceAmount { get; set; }
+        public decimal InvoiceAmount { get; set; }
+
+        public DateTime PaymentDueDate { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public string ModifyBy { get; set; }
+        public DateTime? ModifyDate { get; set; }
+    }
+}

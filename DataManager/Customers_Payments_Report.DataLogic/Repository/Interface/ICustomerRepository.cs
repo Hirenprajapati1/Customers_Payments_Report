@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Customers_Payments_Report.ModelData.Models.common;
+
+
+namespace Customers_Payments_Report.DataLogic.Repository.Interface
+{
+    public interface ICustomerRepository
+    {
+        public List<CustomerData> ShowCustomerNo();
+        public List<CustomerData> GetCustomers();
+        public int AddCustomer(CustomerData CustomerModel, string CustomerNo);
+        public CustomerData GetCustomerById(string no);
+        public int UpdateCustomer(CustomerData EditCust, string CustomerNo);
+        public int DeleteCustomer(string no);
+        public List<CustomerData> ShowCustomerNoByTable();
+        //public int AddCustomerNoByUser(CustomerData CustomerModel);
+    }
+}
