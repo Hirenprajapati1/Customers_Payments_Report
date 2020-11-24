@@ -20,6 +20,8 @@ using Customers_Payments_Report.DataLogic.Repository.Class;
 using Microsoft.CodeAnalysis.Options;
 using Microsoft.OpenApi.Models;
 //using Swashbuckle.Swagger;
+using Customers_Payments_Report.BusinessLogic.Services.Concrete;
+using Customers_Payments_Report.BusinessLogic.Services;
 
 namespace Customers_Payments_Report
 {
@@ -44,13 +46,37 @@ namespace Customers_Payments_Report
                 .AllowAnyHeader());
             });
 
+            services.AddControllers();
+
+            #region Business Logic
+            services.AddScoped<IGetDataServices, GetDataServices>();
+            services.AddScoped<IGeneralSettingsServices, GeneralSettingsServices>();
+            services.AddScoped<IReportServices, ReportServices>();
+            services.AddScoped<ICustomerServices, CustomerServices>();
+            services.AddScoped<IInvoiceServices, InvoiceServices>();
+            services.AddScoped<IPaymentServices, PaymentServices>();
+            services.AddScoped<IAuthenticateServices, AuthenticateServices>();
+            #endregion
+
+
+            #region Data Logic
+            services.AddScoped<IGetData, GetData>();
+            services.AddScoped<IGeneralSettingsRepository, GeneralSettingsRepository>();
+            services.AddScoped<IReportRepository, ReportRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IAuthenticateRepository, AuthenticateRepository>();
+            #endregion
+
+
             services.AddSwaggerGen(Options =>
             {
                 Options.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
-                        Title ="API",
-                        Description="API Data",
+                        Title = "Customer Invoice and Payment Management",
+                        Description="Smart Invoice System",
                         Version="V1"
                     });
             });
@@ -61,15 +87,7 @@ namespace Customers_Payments_Report
             //});
 
 
-            services.AddControllers();
-            services.AddScoped<IGetData, GetData>();
-            services.AddScoped<IGeneralSettingsRepository, GeneralSettingsRepository>();
-            services.AddScoped<IReportRepository, ReportRepository>();
-            services.AddScoped<ICustomerRepository, CustomerRepository>();
-            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
-            services.AddScoped<IPaymentRepository, PaymentRepository>();
-            services.AddScoped<IAuthenticateRepository, AuthenticateRepository>();
-
+        
 
             var appSettingsSection = Configuration.GetSection("AppSetting");
             services.Configure<AppSetting>(appSettingsSection);

@@ -5073,11 +5073,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hprajapati\\Desktop\\My project\\Customers_Payments_Report\\Common_Layer\\Customers_Payments_Report.ModelData\\Customers_Payments_Report.ModelData.csproj",
+      "projectUniqueName": "C:\\Users\\hprajapati\\Desktop\\My_project\\Customers_Payments_Report\\Common_Layer\\Customers_Payments_Report.ModelData\\Customers_Payments_Report.ModelData.csproj",
       "projectName": "Customers_Payments_Report.ModelData",
-      "projectPath": "C:\\Users\\hprajapati\\Desktop\\My project\\Customers_Payments_Report\\Common_Layer\\Customers_Payments_Report.ModelData\\Customers_Payments_Report.ModelData.csproj",
+      "projectPath": "C:\\Users\\hprajapati\\Desktop\\My_project\\Customers_Payments_Report\\Common_Layer\\Customers_Payments_Report.ModelData\\Customers_Payments_Report.ModelData.csproj",
       "packagesPath": "C:\\Users\\hprajapati\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\hprajapati\\Desktop\\My project\\Customers_Payments_Report\\Common_Layer\\Customers_Payments_Report.ModelData\\obj\\",
+      "outputPath": "C:\\Users\\hprajapati\\Desktop\\My_project\\Customers_Payments_Report\\Common_Layer\\Customers_Payments_Report.ModelData\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

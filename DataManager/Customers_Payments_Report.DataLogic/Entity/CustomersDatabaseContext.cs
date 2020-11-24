@@ -36,17 +36,21 @@ namespace Customers_Payments_Report.DataLogic.Entity
             modelBuilder.Entity<Admin>(entity =>
             {
                 entity.HasKey(e => e.Name)
-                    .HasName("PK__tmp_ms_x__737584F76C95F0CB");
+                    .HasName("PK__tmp_ms_x__737584F70E084578");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
 
-                entity.Property(e => e.ContactNo).HasMaxLength(15);
+                entity.Property(e => e.ContactNo)
+                    .IsRequired()
+                    .HasMaxLength(15);
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnName("Created_date")
                     .HasColumnType("datetime");
 
-                entity.Property(e => e.Email).HasMaxLength(50);
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
@@ -70,6 +74,8 @@ namespace Customers_Payments_Report.DataLogic.Entity
                     .HasMaxLength(100);
 
                 entity.Property(e => e.Region).HasMaxLength(50);
+
+                entity.Property(e => e.UserType).HasMaxLength(20);
             });
 
             modelBuilder.Entity<AutoIncrimentNo>(entity =>

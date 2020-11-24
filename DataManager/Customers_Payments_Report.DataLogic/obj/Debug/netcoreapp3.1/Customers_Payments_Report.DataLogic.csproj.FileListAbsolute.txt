@@ -13,3 +13,18 @@ C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\DataManager\Cus
 C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.dll
 C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.pdb
 C:\Users\hprajapati\Desktop\My project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.genruntimeconfig.cache
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\bin\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.deps.json
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\bin\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.runtimeconfig.json
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\bin\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.runtimeconfig.dev.json
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\bin\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.dll
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\bin\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.pdb
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\bin\Debug\netcoreapp3.1\Customers_Payments_Report.ModelData.dll
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\bin\Debug\netcoreapp3.1\Customers_Payments_Report.ModelData.pdb
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.csprojAssemblyReference.cache
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.AssemblyInfoInputs.cache
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.AssemblyInfo.cs
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.csproj.CoreCompileInputs.cache
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.csproj.CopyComplete
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.dll
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.pdb
+C:\Users\hprajapati\Desktop\My_project\Customers_Payments_Report\DataManager\Customers_Payments_Report.DataLogic\obj\Debug\netcoreapp3.1\Customers_Payments_Report.DataLogic.genruntimeconfig.cache

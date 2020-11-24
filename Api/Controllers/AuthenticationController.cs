@@ -7,6 +7,7 @@ using Customers_Payments_Report.DataLogic.Repository.Interface;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Customers_Payments_Report.BusinessLogic.Services;
 
 namespace Customers_Payments_Report.Controllers
 {
@@ -17,8 +18,8 @@ namespace Customers_Payments_Report.Controllers
     public class AuthenticationController : ControllerBase
     {
 
-        private IAuthenticateRepository _authenticateService;
-        public AuthenticationController(IAuthenticateRepository authenticateService)
+        private IAuthenticateServices _authenticateService;
+        public AuthenticationController(IAuthenticateServices authenticateService)
         {
             _authenticateService = authenticateService;
         }

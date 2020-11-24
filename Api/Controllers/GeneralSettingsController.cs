@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Customers_Payments_Report.BusinessLogic.Services;
 
 namespace Customers_Payments_Report.Controllers
 {
@@ -17,22 +18,23 @@ namespace Customers_Payments_Report.Controllers
     [EnableCors("AllowMyOrigin")]
     public class GeneralSettingsController : ControllerBase
     {
-        private readonly IGeneralSettingsRepository _generalSettingsRepository;
-        public GeneralSettingsController(IGeneralSettingsRepository generalSettingsRepository)
+        private readonly IGeneralSettingsServices _generalSettingsServices;
+        public GeneralSettingsController(IGeneralSettingsServices generalSettingsServices)
         {
-            _generalSettingsRepository = generalSettingsRepository;
+            _generalSettingsServices = generalSettingsServices;
         }
 
         [HttpGet("ListGeneralSettings")]
         public List<GeneralSettingsData> ListGeneralSettings()
         {
-            return _generalSettingsRepository.ListGeneralSettings();
+            return _generalSettingsServices.ListGeneralSettings();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("UpdateGeneralSettings")]  
         public int UpdateGeneralSettings([FromBody] GeneralSettingsData EditGS, int id)
         {
-            return _generalSettingsRepository.UpdateGeneralSettings(EditGS,id );
+            return _generalSettingsServices.UpdateGeneralSettings(EditGS,id );
         }
 
     }

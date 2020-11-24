@@ -2708,7 +2708,10 @@
         },
         "runtime": {
           "bin/placeholder/Customers_Payments_Report.ModelData.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -8718,11 +8721,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\hprajapati\\Desktop\\My project\\Customers_Payments_Report\\DataManager\\Customers_Payments_Report.DataLogic\\Customers_Payments_Report.DataLogic.csproj",
+      "projectUniqueName": "C:\\Users\\hprajapati\\Desktop\\My_project\\Customers_Payments_Report\\DataManager\\Customers_Payments_Report.DataLogic\\Customers_Payments_Report.DataLogic.csproj",
       "projectName": "Customers_Payments_Report.DataLogic",
-      "projectPath": "C:\\Users\\hprajapati\\Desktop\\My project\\Customers_Payments_Report\\DataManager\\Customers_Payments_Report.DataLogic\\Customers_Payments_Report.DataLogic.csproj",
+      "projectPath": "C:\\Users\\hprajapati\\Desktop\\My_project\\Customers_Payments_Report\\DataManager\\Customers_Payments_Report.DataLogic\\Customers_Payments_Report.DataLogic.csproj",
       "packagesPath": "C:\\Users\\hprajapati\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\hprajapati\\Desktop\\My project\\Customers_Payments_Report\\DataManager\\Customers_Payments_Report.DataLogic\\obj\\",
+      "outputPath": "C:\\Users\\hprajapati\\Desktop\\My_project\\Customers_Payments_Report\\DataManager\\Customers_Payments_Report.DataLogic\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -8741,8 +8744,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\hprajapati\\Desktop\\My project\\Customers_Payments_Report\\Common_Layer\\Customers_Payments_Report.ModelData\\Customers_Payments_Report.ModelData.csproj": {
-              "projectPath": "C:\\Users\\hprajapati\\Desktop\\My project\\Customers_Payments_Report\\Common_Layer\\Customers_Payments_Report.ModelData\\Customers_Payments_Report.ModelData.csproj"
+            "C:\\Users\\hprajapati\\Desktop\\My_project\\Customers_Payments_Report\\Common_Layer\\Customers_Payments_Report.ModelData\\Customers_Payments_Report.ModelData.csproj": {
+              "projectPath": "C:\\Users\\hprajapati\\Desktop\\My_project\\Customers_Payments_Report\\Common_Layer\\Customers_Payments_Report.ModelData\\Customers_Payments_Report.ModelData.csproj"
             }
           }
         }

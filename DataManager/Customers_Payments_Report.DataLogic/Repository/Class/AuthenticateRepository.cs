@@ -54,6 +54,7 @@ namespace Customers_Payments_Report.DataLogic.Repository.Class
                     AdminEntity.Gender = AdminModel.Gender;
                     AdminEntity.Password = AdminModel.Password;
                     //AdminEntity.Region = AdminModel.Region;
+                    AdminEntity.UserType = AdminModel.UserType;
                     AdminEntity.CreatedDate = DateTime.Now;
                     AdminEntity.ContactNo = AdminModel.ContactNo;
                     AdminEntity.Email = AdminModel.Email;
@@ -79,9 +80,6 @@ namespace Customers_Payments_Report.DataLogic.Repository.Class
             return returnVal;
         }
         #endregion
-
-        
-
 
         #region GetAdmin
         public List<AdminData> GetAdmins()
@@ -131,6 +129,7 @@ namespace Customers_Payments_Report.DataLogic.Repository.Class
                     Admin1.username = Adm.Name;
                     Admin1.FirstName = Adm.FirstName;
                     Admin1.LastName = Adm.LastName;
+                    Admin1.UserType = Adm.UserType;
                     ///            Admin1.Region = Adm.Region;
                     Admin1.Gender = Adm.Gender;
                     Admin1.Password = Adm.Password;
@@ -156,7 +155,8 @@ namespace Customers_Payments_Report.DataLogic.Repository.Class
                 Subject = new System.Security.Claims.ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Name, user.username.ToString()),
-                    new Claim(ClaimTypes.Role, "Admin"),
+                    new Claim(ClaimTypes.Role, user.UserType),
+                    
                     //new Claim(ClaimTypes.Version, "V3.1")
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(300),
@@ -166,7 +166,14 @@ namespace Customers_Payments_Report.DataLogic.Repository.Class
             user.Token = tokenHandler.WriteToken(token);
 
             user.Password = null;
-
+            if (user.UserType == "Admin")
+            {
+                return user;
+            }
+            else if(user.UserType == "Operator")
+            {
+                return user;
+            }
             return user;
         }
         #endregion

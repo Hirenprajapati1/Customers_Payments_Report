@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Customers_Payments_Report.BusinessLogic.Services;
 
 namespace Customers_Payments_Report.Controllers
 {
@@ -19,72 +20,75 @@ namespace Customers_Payments_Report.Controllers
 
     public class InvoiceController : ControllerBase
     {
-        private readonly IInvoiceRepository _invoiceRepository;
-        public InvoiceController(IInvoiceRepository invoiceRepository)
+        private readonly IInvoiceServices _invoiceServices;
+        public InvoiceController(IInvoiceServices invoiceRepository)
         {
-            _invoiceRepository = invoiceRepository;
+            _invoiceServices = invoiceRepository;
         }
-
 
         [HttpGet("GetInvoices")]
         public List<InvoiceData> GetInvoices()
         {
-            return _invoiceRepository.GetInvoices();
+            return _invoiceServices.GetInvoices();
         }
 
         [HttpGet("ShowInvoiceNo")]
         public List<InvoiceData> ShowInvoiceNo()
         {
-            return _invoiceRepository.ShowInvoiceNo();
+            return _invoiceServices.ShowInvoiceNo();
         }
+
 
         [HttpPost("AddInvoice")]
         public int AddInvoice([FromBody] InvoiceData InvoiceModel, string InvoiceNo)
         {
-            return _invoiceRepository.AddInvoice(InvoiceModel, InvoiceNo);
+            return _invoiceServices.AddInvoice(InvoiceModel, InvoiceNo);
         }
 
         [HttpPost("AddInvoiceNoByUser")]
         public int AddInvoiceNoByUser([FromBody] InvoiceData InvoiceModel)
         {
-            return _invoiceRepository.AddInvoiceNoByUser(InvoiceModel);
+            return _invoiceServices.AddInvoiceNoByUser(InvoiceModel);
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet("GetInvoiceById/{id}")]
         public InvoiceData GetInvoiceById(string id)
         {
-            return _invoiceRepository.GetInvoiceById(id);
+            return _invoiceServices.GetInvoiceById(id);
         }
-     
+
+        [Authorize(Roles = "Admin")]
         [HttpPost("UpdateInvoice/{id}")]
         public int UpdateCustomer([FromBody] InvoiceData EditInv)
         {
-            return _invoiceRepository.UpdateInvoice(EditInv);
+            return _invoiceServices.UpdateInvoice(EditInv);
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpDelete("DeleteInvoice/{id}")]
         public int DeleteInvoice(string id)
         {
-            return _invoiceRepository.DeleteInvoice(id);
+            return _invoiceServices.DeleteInvoice(id);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("ListPaymentDelete/{Inv_NO}")]
         public List<PaymentData> ListPaymentDelete(string Inv_NO)
         {
-            return _invoiceRepository.ListPaymentDelete(Inv_NO) ;
+            return _invoiceServices.ListPaymentDelete(Inv_NO) ;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("DeletePaymentByInvoiceNo/{id}")]
         public int DeletePaymentByInvoiceNo(string id)
         {
-            return _invoiceRepository.DeletePaymentByInvoiceNo(id);
+            return _invoiceServices.DeletePaymentByInvoiceNo(id);
         }
         [HttpGet("ShowInvoiceNoByTable")]
         public List<InvoiceData> ShowInvoiceNoByTable()
         {
-            return _invoiceRepository.ShowInvoiceNoByTable();
+            return _invoiceServices.ShowInvoiceNoByTable();
         }
 
 

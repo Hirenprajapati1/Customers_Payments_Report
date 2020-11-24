@@ -527,6 +527,7 @@ namespace Customers_Payments_Report.DataLogic.Repository.Class
                         AdminDatas.Region = Adm.Region;
                         AdminDatas.Gender = Adm.Gender;
                         AdminDatas.Email = Adm.Email;
+                        AdminDatas.UserType = Adm.UserType;
                         AdminDatas.ContactNo = Adm.ContactNo;
 
                     }

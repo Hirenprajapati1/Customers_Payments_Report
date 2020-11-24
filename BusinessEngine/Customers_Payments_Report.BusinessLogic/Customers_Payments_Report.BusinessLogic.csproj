@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataManager\Customers_Payments_Report.DataLogic\Customers_Payments_Report.DataLogic.csproj" />
+  </ItemGroup>
+
 </Project>

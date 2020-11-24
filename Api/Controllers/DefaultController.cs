@@ -8,6 +8,7 @@ using Customers_Payments_Report.ModelData.Models.common;
 using Customers_Payments_Report.DataLogic.Repository.Interface;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Authorization;
+using Customers_Payments_Report.BusinessLogic.Services;
 
 namespace Customers_Payments_Report.Controllers
 {
@@ -18,16 +19,16 @@ namespace Customers_Payments_Report.Controllers
 
     public class DefaultController : ControllerBase
     {
-        private readonly IGetData _GetDataRepository;
-        public DefaultController(IGetData GetDataRepository)
+        private readonly IGetDataServices _GetDataServices;
+        public DefaultController(IGetDataServices GetDataServices)
         {
-            _GetDataRepository = GetDataRepository;
+            _GetDataServices = GetDataServices;
         }
 
         [HttpGet("GetReportCallaction")]
         public List<ReportData> GetReportCallaction()
         {
-            return _GetDataRepository.GetReportCallaction();
+            return _GetDataServices.GetReportCallaction();
         }
 
         #region Report
@@ -36,7 +37,7 @@ namespace Customers_Payments_Report.Controllers
         [HttpGet("GetReportPay")]
         public List<ReportData> GetReportPay()
         {
-            return _GetDataRepository.GetReportPay();
+            return _GetDataServices.GetReportPay();
         }
 
         #endregion
@@ -59,20 +60,20 @@ namespace Customers_Payments_Report.Controllers
         [HttpGet("GetCustomers")]
         public List<CustomerData> GetEmployees()
         {
-            return _GetDataRepository.GetCustomers();
+            return _GetDataServices.GetCustomers();
         }
 
         [HttpGet("GetInvoices")]
         public List<InvoiceData> GetInvoices()
         {
-            return _GetDataRepository.GetInvoices();
+            return _GetDataServices.GetInvoices();
         }
 
 
         [HttpGet("GetPayments")]
         public List<PaymentData> GetPayments()
         {
-            return _GetDataRepository.GetPayments();
+            return _GetDataServices.GetPayments();
         }
         #endregion
         
